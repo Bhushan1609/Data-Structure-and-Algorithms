@@ -37,6 +37,7 @@ void callbetter(vector <int> v1){
 }
 //O(n)
 //constant
+// Dutch National Flag Algorithm
 void calloptimal(vector <int>v){
     int n = v.size();
     int low  = 0 , mid = 0  , high  = n -1;
