@@ -79,7 +79,7 @@ void calloptimal(vector <int>v){
     if(index == -1){
         // just reverse the array 
         // because the input is the last permutation
-        // or like 1 2 3 4  5 there is  dip in array from end
+        // or like 5 4 3 2 1 there is  dip in array from end
         reverse(v.begin() , v.end());
         for(auto i : v){
             cout << i << " ";
