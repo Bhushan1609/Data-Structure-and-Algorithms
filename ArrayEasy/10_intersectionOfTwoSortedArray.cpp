@@ -24,7 +24,7 @@ void callbrute(vector <int>v1 , vector <int> v2){
     return ;
 }
 //O(n1+n2)
-// constant
+// O(n1+n2)
 void calloptimal(vector <int>v1 , vector <int>v2){
     int n1 = v1.size() ;
     int n2 = v2.size();
