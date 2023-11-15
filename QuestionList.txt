@@ -1,11 +1,12 @@
-Sorting
+Sorting :
     (1)Selection Sort
     (2)Bubble Sort
     (3)Insertion Sort
     (4)Merge Sort
     (5)Quick Sort
-Arrray
-(ArrayEasy)
+
+Arrray :
+(ArrayEasy) ->
     (6)  Largest Element
     (7)  Second Largest Element
     (8)  Check Sorted
@@ -20,3 +21,22 @@ Arrray
     (17)  Maximum Consecutive Onces
     (18)  Element That Appears Onces
     (19)  Longest subArray with Sum K
+ (ArrayMedium) ->
+ (ArrayHard) ->
+
+Binary Search :
+(BS on 1D) ->
+    (1) Binary Search
+    (2) Implement Lower Bound
+    (3) Implement Upper Bound
+    (4) Search Insert Position
+    (5) Floor/Ceil in Sorted Array
+    (6) Find the first and last Occurence of the Element in sorted Array
+    (7) Count Occurence of the number in the Sorted Array
+    (8) Search in Sorterd Array {UNIQUE}
+    (9) Search in sorted Array {DUPLI}
+    (10) Find the Minimum in the Sorted Array
+    (11) Find out Array has been being Rotated
+    (12) Single Element in Sorted Array
+    (13) Find the Peak Element
+(BS on Answers) ->
