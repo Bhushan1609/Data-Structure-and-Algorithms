@@ -5,7 +5,7 @@ Sorting :
     (4)Merge Sort
     (5)Quick Sort
 
-Arrray :
+Arrray : 
 (ArrayEasy) ->
     (6)  Largest Element                                                                                                                                                  
     (7)  Second Largest Element
