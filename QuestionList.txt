@@ -58,7 +58,7 @@ Binary Search :
     (50) Find the first and last Occurence of the Element in sorted Array
     (51) Count Occurence of the number in the Sorted Array
     (52) Search in Sorterd Array {UNIQUE}
-    (53) Search in sorted Array {DUPLI}
+    (53) Search in sorted Array {DUPLICATE}
     (54) Find the Minimum in the Sorted Array
     (55) Find out Array has been being Rotated
     (56) Single Element in Sorted Array
