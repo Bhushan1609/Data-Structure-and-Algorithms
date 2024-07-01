@@ -2,7 +2,7 @@
 
 Hello! 👋 My name is Bhushan Thombare, and I'm on a journey to conquer data structures and algorithms through Striver's comprehensive DSA course.
 
-## About the Project
+## About the Repository
 
 In this repository, I am tackling Striver's DSA Sheet 2, a curated collection of problems designed to strengthen foundational skills in algorithms and data structures.
 
