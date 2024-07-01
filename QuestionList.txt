@@ -1,0 +1,94 @@
+Sorting :
+    (1)Selection Sort
+    (2)Bubble Sort
+    (3)Insertion Sort
+    (4)Merge Sort
+    (5)Quick Sort
+
+Arrray : 
+(ArrayEasy) ->
+    (6)  Largest Element                                                                                                                                                  
+    (7)  Second Largest Element
+    (8)  Check Sorted
+    (9)  Remove Duplicate
+    (10)  Rotate By One Place
+    (11)  Rotate Array By Left K Place
+    (12)  Move Zero To End
+    (13)  Linear Search
+    (14)  Union Of Two Sorted Array
+    (15)  Intersection Of Two Sorted Array
+    (16)  Find the Missing Element
+    (17)  Maximum Consecutive Onces
+    (18)  Element That Appears Onces
+    (19)  Longest subArray with Sum K
+ (ArrayMedium) ->
+    (20) Two Sum
+    (21) Sort 0,1,2
+    (22) Majority Element
+    (23) Kadanes Algorithm
+    (24) Stock Buy And Sell
+    (25) Rearrange By Signs
+    (26) Next Permutation
+    (27) Number of subarray With Sum K
+    (28) Longest Consecutive Sequence
+    (29) Set Matrix To Zero
+    (30) Rotate Image or Matrix
+    (31) Spiral Traversal
+    (32) Count Subarray With Sum K
+ (ArrayHard) ->
+    (33) 
+    (34) Majority Element
+    (35) Three Sum
+    (36) Four Sum
+    (37) Largest Subarray With Sum Zero
+    (38) Count The Number Of Subarray With Given Xor
+    (39) Merge Overlapping SubIntervals
+    (40) Merge Two Sorted Arrays With using Extra Space
+    (41) Find The Repeating and Missing Element
+    (42) Count Inversion
+    (43) Count Reverse Pair
+    (44) Maximum Product Subarray
+Binary Search :
+(BS on 1D) ->
+    (45) Binary Search
+    (46) Implement Lower Bound
+    (47) Implement Upper Bound
+    (48) Search Insert Position
+    (49) Floor/Ceil in Sorted Array
+    (50) Find the first and last Occurence of the Element in sorted Array
+    (51) Count Occurence of the number in the Sorted Array
+    (52) Search in Sorterd Array {UNIQUE}
+    (53) Search in sorted Array {DUPLICATE}
+    (54) Find the Minimum in the Sorted Array
+    (55) Find out Array has been being Rotated
+    (56) Single Element in Sorted Array
+    (57) Find the Peak Element
+(BS on Answers) ->
+    (58) Square Root
+    (59) Nth Root of M
+    (60) KoKo Eating Bananas
+    (61) Minimum Days To Make BouQuets
+    (62) Find The Smallest Divisior Given A Threshold
+    (63) Capacity To Ship Packages Within D Days
+    (64) kth Missing Positive Number
+    (65) Aggresive Cows
+    (66) Allocate Books
+    (67) Split Array Into Largest Sum
+    (68) Painter Partition
+    (69) Minimize Maximum Distance Between Gas Stations
+    (70) Median Of Two Sorted Arrays
+(BS on 2D)
+    (71) Row With maximum Numbers of Ones
+    (72) Search In 2D matrix
+    (73) Search - II
+    (74)
+    (75)
+
+(LinkedList)
+    (76)
+    (77)
+    (78)
+    (79)
+    (80)
+    (81)
+    (82)
