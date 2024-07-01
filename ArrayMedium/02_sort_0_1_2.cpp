@@ -6,7 +6,7 @@ void callbrute(vector <int> v){
     for (auto i : v){
         cout << i << " ";
     }
-    cout << endl;
+    cout << endl; 
     return ;
 }
 //O(2n)
