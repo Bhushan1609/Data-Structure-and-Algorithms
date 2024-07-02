@@ -19,7 +19,7 @@ using vddddd = vector<vdddd<T>>;
 template <class T>
 using q = queue<T>;
 template <class T>
-using pq = priority_queue<T>;
+using pq = priority_queue<T>; 
 template <class T>
 using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define vv(type, name, h, ...) vector<vector<type>> name(h, vector<type>(__VA_ARGS__))
