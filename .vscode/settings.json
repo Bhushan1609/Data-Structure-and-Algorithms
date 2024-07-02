@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "__tuple": "cpp",
+        "array": "cpp",
+        "chrono": "cpp",
+        "compare": "cpp",
+        "cstddef": "cpp",
+        "type_traits": "cpp",
+        "filesystem": "cpp",
+        "forward_list": "cpp",
+        "limits": "cpp",
+        "random": "cpp",
+        "ratio": "cpp",
+        "scoped_allocator": "cpp",
+        "tuple": "cpp",
+        "variant": "cpp",
+        "vector": "cpp"
+    }
+}

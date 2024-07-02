@@ -119,7 +119,7 @@ void createGraph(){
 		adjList[a].pb({b,wt});
 		adjList[b].pb({a,wt});
 	}
-	printGraph(adjList,nodes);
+	printGraph(adjList,nodes); 
 }
 void itachi_1609(){
     createGraph();

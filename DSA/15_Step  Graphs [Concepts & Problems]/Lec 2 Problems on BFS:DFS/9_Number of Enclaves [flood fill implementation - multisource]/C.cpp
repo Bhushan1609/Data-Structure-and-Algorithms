@@ -38,7 +38,7 @@ using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define FOR_R(...) overload3(__VA_ARGS__, FOR3_R, FOR2_R, FOR1_R)(__VA_ARGS__)
 #define all(x) x.begin(), x.end()
 #define len(x) ll(x.size())
-#define pb emplace_back
+#define pb push_back
 #define mp make_pair
 #define fi first
 #define se second
@@ -88,8 +88,44 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<pi>fourDirection={{-1,0},{0,-1},{1,0},{0,1}};
+
+void dfs(ll i,ll j,vdd<bool>&visited,vdd<int>& b){
+    visited[i][j]=true;
+    FOR(4){
+        ll newx=i+fourDirection[_].fi;
+        ll newy=j+fourDirection[_].se;
+        if(newx>=0 and newx<b.size() and newy>=0 and newy<b[0].size() and b[newx][newy]==1 and !visited[newx][newy]){
+            dfs(newx,newy,visited,b);
+        }
+    }
+}
+int numEnclaves(vector<vector<int>>& b) {
+    int n=b.size();
+    int m=b[0].size();
+    int cnt=0;
+    vdd<bool>visited(n,vd<bool>(m,false));
+    FOR(m){
+        if(b[0][_]==1 and !visited[0][_])dfs(0,_,visited,b);
+        if(b[n-1][_]==1 and !visited[n-1][_]) dfs(n-1,_,visited,b);
+    }
+    FOR(i,0,n){
+        if(b[i][0]==1 and !visited[i][0]) dfs(i,0,visited,b);
+        if(b[i][m-1]==1 and !visited[i][m-1]) dfs(i,m-1,visited,b);
+    }
+    FOR(n){
+        FOR(j,0,m){
+            if(b[_][j]==1 and !visited[_][j])cnt++;
+        }
+    }
+    return cnt;
+}
 void itachi_1609(){
-    
+    vdd<int>board={
+        {0,0,0,0},{1,0,1,0},{0,1,1,0},{0,0,0,0}
+    };
+    print(numEnclaves(board));
+    printn();
     return;
 }
 int main(){

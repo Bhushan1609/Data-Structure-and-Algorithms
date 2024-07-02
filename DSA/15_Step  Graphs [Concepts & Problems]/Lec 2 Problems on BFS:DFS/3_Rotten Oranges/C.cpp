@@ -88,8 +88,47 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<pi>fourDirection={{-1,0},{0,-1},{1,0},{0,1}};
+int orangesRotting(vector<vector<int>>& grid) {
+    q<pi>q;
+    int n=grid.size(),m=grid[0].size(),ans=0;
+    vdd<bool>visited(n,vd<bool>(m,false));
+    FOR(n){
+        FOR(i,0,m){
+            if(grid[_][i]==2){
+                q.push({_,i});
+                visited[_][i]=true;
+            }
+        }
+    }
+    while(!q.empty()){
+        int qn=q.size();
+        FOR(qn){
+            auto temp=q.front();q.pop();
+            FOR(4){
+                int newx=temp.fi+fourDirection[_].fi;
+                int newy=temp.se+fourDirection[_].se;
+                if(newx>=0 and newx<n and newy>=0 and newy<m and !visited[newx][newy] and grid[newx][newy]==1){
+                    q.push({newx,newy});
+                    visited[newx][newy]=true;
+                }
+            }
+        }
+        ans++;
+    }
+    FOR(n){
+        FOR(i,0,m){
+            if(grid[_][i]==1 and !visited[_][i])return -1;
+        }
+    }
+    return ans==0 ? 0 : ans-1;
+}
 void itachi_1609(){
-    
+    vdd<int>grid{
+        {2,1,1},{1,1,0},{0,1,1}
+    };
+    print(orangesRotting(grid));
+    printn();
     return;
 }
 int main(){

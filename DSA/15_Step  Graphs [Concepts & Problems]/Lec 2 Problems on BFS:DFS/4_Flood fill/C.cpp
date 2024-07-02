@@ -88,8 +88,44 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<pi>fourDirection={{-1,0},{0,-1},{1,0},{0,1}};
+void floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+	int n=image.size();
+	int m=image[0].size();
+	vdd<int>ans=image;
+	vdd<bool>visited(n,vd<bool>(m,false));
+	q<pi>q;
+	q.push({sr,sc});
+	visited[sr][sc]=true;
+	while(!q.empty()){
+		int qn=q.size();
+		FOR(qn){
+			auto temp=q.front();q.pop();
+			ans[temp.fi][temp.se]=color;
+			FOR(4){
+				int newx=temp.fi+fourDirection[_].fi;
+				int newy=temp.se+fourDirection[_].se;
+				if(newx>=0 and newx<n and newy>=0 and newy<m and visited[newx][newy]==false and image[temp.fi][temp.se]==image[newx][newy]){
+					q.push({newx,newy});
+					visited[newx][newy]=true;
+				}
+			}
+		}
+	}
+	for(auto i:ans){
+		for(auto j:i){
+			cout<<j<<" ";
+		}cout<<endl;
+	}
+	printn();
+	return ;
+}
 void itachi_1609(){
-    
+    vdd<int>grid{
+        {1,1,1},{1,1,0},{1,0,1}
+    };
+    floodFill(grid,1,1,2);
+    printn();
     return;
 }
 int main(){

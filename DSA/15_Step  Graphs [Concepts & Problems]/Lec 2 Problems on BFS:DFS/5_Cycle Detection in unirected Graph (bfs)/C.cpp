@@ -38,7 +38,7 @@ using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define FOR_R(...) overload3(__VA_ARGS__, FOR3_R, FOR2_R, FOR1_R)(__VA_ARGS__)
 #define all(x) x.begin(), x.end()
 #define len(x) ll(x.size())
-#define pb emplace_back
+#define pb push_back
 #define mp make_pair
 #define fi first
 #define se second
@@ -88,8 +88,57 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<pi>fourDirection={{-1,0},{0,-1},{1,0},{0,1}};
+void printGraph(vector<pi>adjList[],ll nodes){
+	FOR(i,0,nodes+1){
+		cout << "{" << i << "} : {";
+		for(auto j:adjList[i])cout << "[" << j.first << "," << j.second << "], ";
+		cout << "}" << endl;
+	}
+	return ;
+}
+void createGraph(){
+	print("Enter Number of Nodes and Edges Respectively : ");LL(nodes,edges);
+	vector<pi>adjList[nodes+1];
+	FOR(edges){
+		print("Enter the Nodes have Edge in BetWeen and weight Respectively: ");LL(a,b,wt);
+		adjList[a].pb({b,wt});
+		adjList[b].pb({a,wt});
+	}
+	//printGraph(adjList,nodes);
+    print(isCycle(nodes,adjList));
+    printn();
+    return ;
+}
+ bool isCycle(int V, vector<pi> adj[]) {
+    vd<bool>visited(V,false);
+    FOR(V){
+        if(!visited[_]){
+            q<pi>q;
+            q.push({_,-1});
+            visited[_]=true;
+            while(!q.empty()){
+                int qn=q.size();
+                FOR(qn){
+                    auto front=q.front();q.pop();
+                    for(auto i:adj[front.fi]){
+                        if(!visited[i.fi]){
+                            q.push({i.fi,front.fi});
+                            visited[i.fi]=true;
+                        }
+                        else{
+                            if(front.se != i.fi)return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 void itachi_1609(){
-    
+    createGraph();
+    printn();
     return;
 }
 int main(){

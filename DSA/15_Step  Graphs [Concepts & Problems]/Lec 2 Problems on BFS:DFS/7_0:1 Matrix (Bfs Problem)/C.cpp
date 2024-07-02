@@ -38,7 +38,7 @@ using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define FOR_R(...) overload3(__VA_ARGS__, FOR3_R, FOR2_R, FOR1_R)(__VA_ARGS__)
 #define all(x) x.begin(), x.end()
 #define len(x) ll(x.size())
-#define pb emplace_back
+#define pb push_back
 #define mp make_pair
 #define fi first
 #define se second
@@ -88,8 +88,49 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<pi>fourDirection={{-1,0},{0,-1},{1,0},{0,1}};
+void updateMatrix(vector<vector<int>>& mat) {
+    int n=mat.size(),m=mat[0].size();
+    vdd<int>ans(n,vd<int>(m,0));
+    vdd<bool>visited(n,vd<bool>(m,false));
+    q<pair<pi,ll>>q;
+    FOR(n){
+        FOR(i,0,m){
+            if(mat[_][i]==0){
+                q.push({{_,i},0});
+                visited[_][i]=true;
+            }
+        }
+    }
+    while(!q.empty()){
+        ll qn=q.size();
+        FOR(qn){
+            auto temp=q.front();q.pop();
+            int x=temp.fi.fi;
+            int y=temp.fi.se;
+            int dist=temp.se;
+            ans[x][y]=dist;
+            FOR(4){
+                int newx=x+fourDirection[_].fi;
+                int newy=y+fourDirection[_].se;
+                if(newx>=0 and newx<n and newy>=0 and newy<m and !visited[newx][newy]){
+                    visited[newx][newy]=true;
+                    q.push({{newx,newy},dist+1});
+                }
+            }
+        }
+    }
+    for(auto i: ans){
+        for(auto j:i){
+            cout<<j<<" ";
+        }cout<<endl;
+    }
+    return ;
+}
 void itachi_1609(){
-    
+    vdd<int>mat={{0,0,0},{0,1,0},{0,0,0}};
+    updateMatrix(mat);
+    printn();
     return;
 }
 int main(){

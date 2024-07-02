@@ -121,17 +121,10 @@ void dfsRecursion(int src,vd<bool>&visited,vector<pi>adjList[]){
 	}
 	return ;
 }
-void countOfProvincess(vector<pi>adjList[],int n){
+void dfs(vector<pi>adjList[],int n){
 	vd<bool>visited(n,false);
-	int cnt=0;
-	FOR(i,1,n){
-		if(!visited[i]){
-			dfsRecursion(i,visited,adjList);
-			cnt++;
-		}
-	}
-	print(cnt);
-	printn();
+	print("Enter Source : ");LL(src);
+	dfsRecursion(src,visited,adjList);
 	return ;
 }
 void createGraph(){
@@ -144,7 +137,7 @@ void createGraph(){
 	}
 	//printGraph(adjList,nodes);
 	//printn();
-	countOfProvincess(adjList,nodes+1);
+	dfs(adjList,nodes+1);
 }
 void itachi_1609(){
     createGraph();

@@ -38,7 +38,8 @@ using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define FOR_R(...) overload3(__VA_ARGS__, FOR3_R, FOR2_R, FOR1_R)(__VA_ARGS__)
 #define all(x) x.begin(), x.end()
 #define len(x) ll(x.size())
-#define pb emplace_back
+#define pb push_back
+#define eb emplace_back
 #define mp make_pair
 #define fi first
 #define se second
@@ -88,8 +89,66 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+void createGraphUsingMatrix(){
+	print("Enter Number of Nodes and Edges Respectively : ");LL(nodes,edges);
+	vv(ll,graphMatrix,nodes+1,nodes+1);
+	FOR(edges){
+		print("Enter the Nodes have Edge in BetWeen : ");LL(a,b);
+		graphMatrix[a][b]=graphMatrix[b][a]=1;
+	}
+	for(auto i:graphMatrix){
+		for(auto j:i)cout<<j<<" ";
+		printn();
+	}
+	return ;
+}
+void printGraph(vector<pi>adjList[],ll nodes){
+	FOR(i,0,nodes+1){
+		cout << "{" << i << "} : {";
+		for(auto j:adjList[i])cout << "[" << j.first << "," << j.second << "], ";
+		cout << "}" << endl;
+	}
+	return ;
+}
+void dfsRecursion(int src,vd<bool>&visited,vector<pi>adjList[]){
+	if(visited[src])return ;
+	visited[src]=true;
+	for(auto j:adjList[src]){
+		if(!visited[j.first]){
+			dfsRecursion(j.first,visited,adjList);
+		}
+	}
+	return ;
+}
+void countOfProvincess(vector<pi>adjList[],int n){
+	vd<bool>visited(n,false);
+	int cnt=0;
+	FOR(i,1,n){
+		if(!visited[i]){
+			dfsRecursion(i,visited,adjList);
+			cnt++;
+		}
+	}
+	print(cnt);
+	printn();
+	return ;
+}
+void createGraph(){
+	print("Enter Number of Nodes and Edges Respectively : ");LL(nodes,edges);
+	vector<pi>adjList[nodes+1];
+	FOR(edges){
+		print("Enter the Nodes have Edge in BetWeen and weight Respectively: ");LL(a,b,wt);
+		adjList[a].pb({b,wt});
+		adjList[b].pb({a,wt});
+	}
+	//printGraph(adjList,nodes);
+	//printn();
+	countOfProvincess(adjList,nodes+1);
+}
+
 void itachi_1609(){
-    
+    createGraph();
     return;
 }
 int main(){

@@ -10,7 +10,7 @@ public class J{
             int a = sc.nextInt();
             int b = sc.nextInt();
             graphMatrix[a][b]=graphMatrix[b][a]=1;
-        }
+        } 
         for(int i = 0; i <= nodes; i++){
             for (int j = 0; j <= nodes; j++) System.out.print(graphMatrix[i][j]+" ");
             System.out.println();
