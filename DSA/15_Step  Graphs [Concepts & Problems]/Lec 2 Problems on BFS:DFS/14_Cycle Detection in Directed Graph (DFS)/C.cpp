@@ -88,8 +88,38 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+bool dfs(ll node,vector<int> adj[],vd<bool>&visited,vd<bool>&pathVisited){
+    visited[node]=true;
+    pathVisited[node]=true;
+    for(auto i:adj[node]){
+        if(!visited[i]){
+            if(dfs(i,adj,visited,pathVisited)==true)return true;
+        }
+        else{
+            if(pathVisited[i]==true)return true;
+        }
+    }
+    pathVisited[node]=false;
+    return false;
+}
+bool isCyclic(int V, vector<int> adj[]) {
+    vd<bool>visited(V,false),pathVisited(V,false);
+    FOR(V){
+        if(!visited[_]){
+            if(dfs(_,adj,visited,pathVisited)==true)return true;
+        }
+    }
+    return false;
+}
 void itachi_1609(){
-    
+    vector<int>adj[4];
+    adj[0].pb(1);
+    adj[1].pb(2);
+    adj[2].pb(3);
+    adj[3].pb(3);
+    print(isCyclic(4,adj));
+    printn();
     return;
 }
 int main(){

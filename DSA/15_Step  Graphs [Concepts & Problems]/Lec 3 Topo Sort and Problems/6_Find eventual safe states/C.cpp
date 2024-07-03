@@ -88,8 +88,36 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+void eventualSafeNodes(vector<vector<int>>& graph) {
+    vd<int>ans;
+    int n=graph.size();
+    vd<int>indegree(n,0);
+    vector<int>adj[n];
+    FOR(n){
+        for(auto i:graph[_]){
+            adj[i].push_back(_);
+            indegree[_]++;
+        }
+    }
+    q<int>q;
+    FOR(n)if(indegree[_]==0)q.push(_);
+    while(!q.empty()){
+        int temp=q.front();q.pop();
+        ans.pb(temp);
+        for(auto i:adj[temp]){
+            indegree[i]--;
+            if(indegree[i]==0)q.push(i);
+        }
+    }
+    sort(all(ans));
+    for(auto i:ans)cout<<i<<" ";
+    cout<<endl;
+}
 void itachi_1609(){
-    
+    vdd<int>graph={
+        {1,2},{2,3},{5},{0},{5},{},{}
+    };
+    eventualSafeNodes(graph);
     return;
 }
 int main(){

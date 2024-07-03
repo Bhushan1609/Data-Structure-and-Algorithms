@@ -88,8 +88,30 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+bool canFinish(int n, vector<vector<int>>& prerequisites) {
+    vector<int>adj[n];
+    for(auto i:prerequisites)adj[i[0]].push_back(i[1]);
+    vector<int>ans;
+    vector<int>indegree(n,0);
+    q<int>q;
+    FOR(n)for(auto i:adj[_])indegree[i]++;
+    FOR(n)if(indegree[_]==0)q.push(_);
+    while(!q.empty()){
+        auto node=q.front();q.pop();
+        ans.pb(node);
+        for(auto i:adj[node]){
+            indegree[i]--;
+            if(indegree[i]==0)q.push(i);
+        }
+    }
+    return ans.size() == n;
+}
 void itachi_1609(){
-    
+    int numCourses = 2;
+    vector<vector<int>>prerequisites = {{1,0}};
+    print(canFinish(numCourses,prerequisites));
+    printn();
     return;
 }
 int main(){

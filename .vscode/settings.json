@@ -16,6 +16,10 @@
         "scoped_allocator": "cpp",
         "tuple": "cpp",
         "variant": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

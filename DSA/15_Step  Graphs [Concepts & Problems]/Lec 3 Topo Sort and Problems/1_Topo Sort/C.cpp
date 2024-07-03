@@ -88,8 +88,35 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+void dfs(int node,vector<int>adj[],vd<bool>&visited,stack<int>&st){
+    visited[node]=true;
+    for(auto i:adj[node]){
+        if(!visited[i])dfs(i,adj,visited,st);
+    }
+    st.push(node);
+    return ;
+}
+void topoSort(int V, vector<int> adj[]) 
+{
+    vd<int>ans;
+    stack<int>st;
+    vd<bool>visited(V,false);
+    FOR(V){
+        if(!visited[_])dfs(_,adj,visited,st);
+    }
+    while(!st.empty()){
+        ans.pb(st.top());
+        st.pop();
+    }
+    for(auto i:ans)cout<<i<<" ";
+    cout<<endl;
+    return ;
+}
 void itachi_1609(){
-    
+    vector<int>adj[5];
+    // make some edges
+    topoSort(5,adj);
+    printn();
     return;
 }
 int main(){

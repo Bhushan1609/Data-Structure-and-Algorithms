@@ -88,8 +88,65 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+bool dfs(int i,vd<int>&visited,vdd<int>&graph){
+    for(auto j:graph[i]){
+        if(visited[j] == -1){
+            if(visited[i]==1)visited[j]=0;
+            else if(visited[i]==0)visited[j]=1;
+            if(dfs(j,visited,graph)==false)return false;
+        }
+        else{
+            if(visited[i] == visited[j]) return false;
+        }
+    }
+    return true;
+}
+bool isBipartite(vector<vector<int>>& graph) {
+    int n=graph.size();
+    vd<int>visited(n,-1);
+    FOR(n){
+        if(visited[_]==-1){
+            visited[_]=0;
+            if(dfs(_,visited,graph)==false)return false;
+        }
+    }
+    return true;
+}
+bool bfsisBipartite(vector<vector<int>>& graph) {
+    int n=graph.size();
+    vd<int>visited(n,-1);
+    FOR(n){
+        if(visited[_]==-1){
+            q<int>q;
+            q.push(_);
+            visited[_]=0;
+            while(!q.empty()){
+                int qn=q.size();
+                FOR(qn){
+                    auto temp=q.front();q.pop();
+                    for(auto j:graph[temp]){
+                        if(visited[j]==-1){
+                            if(visited[temp]==1){
+                                visited[j]=0;
+                            }
+                            else visited[j]=1;
+                            q.push(j);
+                        }
+                        else {
+                            if(visited[temp] == visited[j])return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+    }
 void itachi_1609(){
-    
+    vdd<int>graph{
+        {1,2,3},{0,2},{0,1,3},{0,2}
+    };
+    print(isBipartite(graph));
     return;
 }
 int main(){

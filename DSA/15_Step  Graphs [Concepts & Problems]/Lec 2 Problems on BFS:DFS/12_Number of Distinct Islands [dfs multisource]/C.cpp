@@ -38,7 +38,7 @@ using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define FOR_R(...) overload3(__VA_ARGS__, FOR3_R, FOR2_R, FOR1_R)(__VA_ARGS__)
 #define all(x) x.begin(), x.end()
 #define len(x) ll(x.size())
-#define pb emplace_back
+#define pb push_back
 #define mp make_pair
 #define fi first
 #define se second
@@ -88,8 +88,43 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<pi>fourDirection={{0,1},{0,-1},{1,0},{-1,0}};
+void dfs(ll i,ll j,vd<pi>&addIndices,vdd<bool>&visited,vdd<int>&grid,ll &parentX,ll &parentY){
+    visited[i][j]=1;
+    addIndices.pb({i-parentX,j-parentY});
+    FOR(4){
+        ll newx=i+fourDirection[_].fi;
+        ll newy=j+fourDirection[_].se;
+        if(newx>=0 and newx<grid.size() and newy>=0 and newy<grid[0].size() and grid[newx][newy] and !visited[newx][newy]){
+            dfs(newx,newy,addIndices,visited,grid,parentX,parentY);
+        }
+    }
+}
+int countDistinctIslands(vector<vector<int>>& grid) {
+    int n=grid.size();
+    int m=grid[0].size();
+    set<vd<pi>>uniques;
+    vdd<bool>visited(n,vd<bool>(m,false));
+    FOR(n){
+        FOR(i,0,m){
+            if(grid[_][i]==1 and !visited[_][i]){
+                vd<pi>addIndices;
+                dfs(_,i,addIndices,visited,grid,_,i);
+                uniques.insert(addIndices);
+            }
+        }
+    }
+    return uniques.size();
+}
 void itachi_1609(){
-    
+    vdd<int>grid={
+            {1, 1, 0, 0, 0},
+            {1, 1, 0, 0, 0},
+            {0, 0, 0, 1, 1},
+            {0, 0, 0, 1, 1}
+        };
+    print(countDistinctIslands(grid));
+    printn();
     return;
 }
 int main(){

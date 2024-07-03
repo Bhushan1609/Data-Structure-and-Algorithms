@@ -88,6 +88,28 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+bool isCyclic(int V, vector<int> adj[]) {
+    int cnt=0;
+    q<int>q;
+    vd<int>indegree(V,0);
+    FOR(V){
+        for(auto i:adj[_]){
+            indegree[i]++;
+        }
+    }
+    FOR(V){
+        if(indegree[_]==0)q.push(_);
+    }
+    while(!q.empty()){
+        int temp=q.front();q.pop();
+        cnt++;
+        for(auto i:adj[temp]){
+            indegree[i]--;
+            if(indegree[i]==0)q.push(i);
+        }
+    }
+    return cnt != V;
+}
 void itachi_1609(){
     
     return;

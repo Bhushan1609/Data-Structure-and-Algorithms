@@ -88,8 +88,48 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+void dfs(int node,vector<int>adj[],vd<bool>&visited,stack<int>&st){
+    visited[node]=true;
+    for(auto i:adj[node]){
+        if(!visited[i])dfs(i,adj,visited,st);
+    }
+    st.push(node);
+    return ;
+}
+vd<int> topoSort(int V, vector<int> adj[]) 
+{
+    vd<int>ans;
+    stack<int>st;
+    vd<bool>visited(V,false);
+    FOR(V){
+        if(!visited[_])dfs(_,adj,visited,st);
+    }
+    while(!st.empty()){
+        ans.pb(st.top());
+        st.pop();
+    }
+    return ans;
+}
+string findOrder(string dict[], int N, int K) {
+    vector<int>adj[K];
+    FOR(i,0,N-1){
+        string s1=dict[i];
+        string s2=dict[i+1];
+        for(int j=0;j<min(len(s1),len(s2));j++){
+            if(s1[j] != s2[j]){
+                adj[s1[j]-'a'].push_back(s2[j]-'a');
+                break;
+            }
+        }
+    }
+    vd<int>top1=topoSort(K,adj);
+    string ans="";
+    for(auto i: top1)ans += (i+'a');
+    return ans;
+}
 void itachi_1609(){
-    
+    print(findOrder({"baa","abcd","abca","cab","cad"},4,5));
+    printn();
     return;
 }
 int main(){

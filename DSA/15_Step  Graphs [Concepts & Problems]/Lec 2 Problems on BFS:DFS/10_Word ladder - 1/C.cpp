@@ -88,8 +88,37 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+    q<pair<string,int>>q;
+    unordered_map<string,int>words;
+    for(auto i:wordList)words[i]++;
+    q.push({beginWord,1});
+    while(!q.empty()){
+        int qn=q.size();
+        FOR(qn){
+            string s=q.front().fi;
+            int dist=q.front().se;
+            q.pop();
+            if(s==endWord)return dist;
+            for(int i=0;i<s.size();i++){
+                for(char j='a';j<='z';j++){
+                    char ati=s[i];
+                    s[i]=j;
+                    if(words.find(s) != words.end()){
+                        words.erase(s);
+                        q.push({s,dist+1});
+                    }
+                    s[i]=ati;
+                }
+            }
+        } 
+    }
+    return 0; 
+}
 void itachi_1609(){
-    
+    vd<string>wordList={"hot","dot","dog","lot","log","cog"};
+    print(ladderLength("hit","cog",wordList));
+    printn();
     return;
 }
 int main(){

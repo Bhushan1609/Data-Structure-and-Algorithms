@@ -88,8 +88,32 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<int>adj[numCourses];
+    for(auto i:prerequisites)adj[i[1]].push_back(i[0]);
+    vector<int>ans;
+    vector<int>indegree(numCourses,0);
+    q<int>q;
+    FOR(numCourses)for(auto i:adj[_])indegree[i]++;
+    FOR(numCourses)if(indegree[_]==0)q.push(_);
+    while(!q.empty()){
+        auto node=q.front();q.pop();
+        ans.pb(node);
+        for(auto i:adj[node]){
+            indegree[i]--;
+            if(indegree[i]==0)q.push(i);
+        }
+    }
+    if(ans.size() == numCourses)
+        return ans;
+    return {};
+}
 void itachi_1609(){
-    
+    int numCourses = 2;
+    vdd<int> prerequisites = {{1,0}};
+    vd<int>ans=findOrder(numCourses,prerequisites);
+    print(ans);
+    printn();
     return;
 }
 int main(){
