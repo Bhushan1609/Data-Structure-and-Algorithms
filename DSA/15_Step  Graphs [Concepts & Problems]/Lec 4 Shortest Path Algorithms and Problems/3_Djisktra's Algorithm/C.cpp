@@ -88,8 +88,61 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+void dfs(int node , vector <int>& visited , vector <pair <int,int>> adjacencyList[] , stack<int>& st){
+    visited[node] = 1;
+    for (auto i : adjacencyList[node]){
+        if(!visited[i.first]) dfs(i.first , visited , adjacencyList , st);
+    }
+    st.push(node);
+    return ;
+}
+void topoSort(vector <pair <int , int>> adjacencyList[] ,int nodes , stack<int>& st){
+    vector <int> visited(nodes , 0);
+    for (int i = 0 ; i < nodes ; i++){
+        if(!visited[i]){
+            dfs(i , visited , adjacencyList , st);
+        }
+    }
+    return ;
+}
+vector <int> Path(vector <pair <int , int>> adjacencyList[] ,int nodes ){
+    stack <int> st;
+    topoSort(adjacencyList , nodes , st);
+    int src = 0;// Mentioned in Q....
+    vector <int> dist(nodes , 1e9);
+    dist[src] = 0;
+    while(!st.empty()){
+        int top = st.top();
+        st.pop();
+        for (auto i : adjacencyList[top]){
+            int node = i.first;
+            int wt = i.second;
+            if(dist[top] + wt < dist[node]){
+                dist[node] = dist[top] + wt;
+            }
+        }
+    }
+    for (int i = 0 ; i < nodes ; i++){
+        if(dist[i] == 1e9){
+            dist[i] = -1;
+        }
+    }
+    return dist;
+}
+vector<int> shortestPath(int N, vector<vector<int>>& edges){
+    vector <pair <int , int>> adj[N];
+    for (auto edge : edges){
+        adj[edge[0]].push_back({edge[1] , edge[2]});
+    }
+    return Path(adj , N);
+}
 void itachi_1609(){
-    
+    vector<vector<int>> edges={
+        {0,1,2},{0,2,1}
+    };
+    vd<int>ans=shortestPath(4,edges);
+    print(ans);
+    printn();
     return;
 }
 int main(){

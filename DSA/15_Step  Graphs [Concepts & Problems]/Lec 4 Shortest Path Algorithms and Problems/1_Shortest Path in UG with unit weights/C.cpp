@@ -88,8 +88,42 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vector<int> shortestPath(vector<vector<int>>& edges, int N, int src){
+    vector<int>adj[N];
+    for(auto i:edges){
+        adj[i[0]].push_back(i[1]);
+        adj[i[1]].push_back(i[0]);
+    }
+    vd<int>dist(N,1e9);
+    q<pi>q;
+    q.push({src,0});
+    dist[src]=0;
+    while(!q.empty()){
+        int node=q.front().fi;
+        int dis=q.front().se;
+        q.pop();
+        for(auto i:adj[node]){
+            if(dist[i] != 1e9){
+                dist[i]=min(dis+1,dist[i]);
+            }
+            else{
+                dist[i]=dis+1;
+                q.push({i,dist[i]});
+            }    
+        }
+    }
+    for(auto &i:dist){
+        if(i==1e9)i=-1;
+    }
+    return dist;
+}
 void itachi_1609(){
-    
+    vector<vector<int>> edges={
+        {0,1},{0,3},{3,4},{4,5},{5,6},{1,2},{2,6},{6,7},{7,8},{6,8}
+    };
+    vd<int>ans=shortestPath(edges,9,0);
+    print(ans);
+    printn();
     return;
 }
 int main(){
