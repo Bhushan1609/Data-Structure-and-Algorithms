@@ -9,6 +9,7 @@ using vi = vector<ll>;
 template <class T>
 using vd = vector<T>;
 template <class T>
+
 using vdd = vector<vd<T>>;
 template <class T>
 using vddd = vector<vdd<T>>;
