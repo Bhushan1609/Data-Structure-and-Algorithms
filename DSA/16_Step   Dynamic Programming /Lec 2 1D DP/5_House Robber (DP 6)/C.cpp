@@ -88,8 +88,37 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int topDown(int index,vd<int>&nums,vd<int>&dp){
+    if(index<=0)return (index == 0) ? nums[0] : 0;
+    if(dp[index] != -1)return dp[index];
+    int ntake=topDown(index-1,nums,dp);
+    int take=nums[index] + topDown(index-2,nums,dp);
+    return dp[index] = max(ntake,take);
+}
+int BottomUp(vd<int>&nums){
+    vd<int>dp(len(nums)+1,0);
+    dp[0]=nums[0];
+    FOR(index,1,len(nums)){
+        dp[index] = max(dp[index-1],(index>=2) ? (nums[index]+dp[index-2]) : nums[index]);
+    }
+    return dp[len(nums)-1];
+}
+int spaceOptimize(vd<int>&nums){
+    int prev=nums[0];
+    int prev2=nums[1];
+    FOR(index,1,len(nums)){
+        int curr = max(prev,(index>=2) ? (nums[index]+prev2) : prev2);
+        prev2=prev;
+        prev=curr;
+    }
+    return prev;
+}
 void itachi_1609(){
-    
+    vd<int>dp(101,-1);
+    vd<int>nums={1,2,3,1};
+    print(topDown(len(nums)-1,nums,dp));printn();
+    print(BottomUp(nums));printn();
+    print(spaceOptimize(nums));printn();
     return;
 }
 int main(){

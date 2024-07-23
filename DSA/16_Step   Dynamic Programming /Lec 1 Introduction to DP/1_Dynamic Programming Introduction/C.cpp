@@ -88,8 +88,38 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+
+long long int recursion(int n,vd<long long int>&dpr){
+    if(n<=1)return n;
+    if(dpr[n] != -1)return dpr[n];
+    return dpr[n]=(recursion(n-1,dpr) + recursion(n-2,dpr)) % mod;
+}
+long long int topDown(int n) {
+    vd<long long int>dpr(n+1,-1);
+    return recursion(n,dpr);
+}
+long long int bottomUp(int n) {
+    vd<long long int>dp(n+1,0);
+    dp[1]=1;
+    FOR(i,2,n+1){
+        dp[i]=(dp[i-1] + dp[i-2])%mod;
+    }
+    return dp[n];
+}
+long long int spaceOptimize(int n) {
+    long long int p1=0,p2=1,ans;
+    FOR(i,2,n+1){
+        ans=(p1+p2)%mod;
+        p1=p2;
+        p2=ans;
+    }
+    return p2;
+}
 void itachi_1609(){
-    
+    print(topDown(5));printn();
+    print(bottomUp(5));printn();
+    print(spaceOptimize(5));printn();
     return;
 }
 int main(){

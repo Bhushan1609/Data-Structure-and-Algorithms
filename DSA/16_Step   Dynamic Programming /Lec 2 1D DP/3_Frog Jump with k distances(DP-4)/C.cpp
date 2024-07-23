@@ -88,8 +88,33 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int topDown(int index,int k,vector<int>& h,vd<int>&dp){
+    if(index<=0) return (index == 0) ? 0 : 1e9;
+    if(dp[index] != -1)return dp[index];
+    int oneStep=1e9;
+    FOR(i,1,k+1){
+        if(index-i >= 0) oneStep=min(oneStep,abs(h[index] - h[index-i]) + topDown(index-i,k,h,dp));
+    }
+    return dp[index]=oneStep;
+}
+int BottomUp(int n,int k,vector<int>& h){
+    vd<int>dp(n+1,0);
+    FOR(index,1,n){
+        int oneStep=1e9;
+        FOR(i,1,k+1){
+            if(index-i >= 0) oneStep=min(oneStep,abs(h[index] - h[index-i]) + dp[index-i]);
+        }
+        dp[index]=oneStep;
+    }
+    return dp[n-1];
+}
+
 void itachi_1609(){
-    
+    vd<int>dp(1001,-1);
+    vd<int>h={1,2,3,4};
+    int k=2;
+    print(topDown(len(h)-1,k,h,dp));printn();
+    print(BottomUp(len(h),k,h));printn();
     return;
 }
 int main(){

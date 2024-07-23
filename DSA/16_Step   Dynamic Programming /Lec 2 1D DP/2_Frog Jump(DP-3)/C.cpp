@@ -88,8 +88,42 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int topDown(int index,vector<int>& h,vd<int>&dp){
+    if(index<=0) return (index == 0) ? 0 : 1e9;
+    if(dp[index] != -1)return dp[index];
+    int oneStep=1e9,twoStep=1e9;
+    if(index-1 >= 0) oneStep=abs(h[index] - h[index-1]) + topDown(index-1,h,dp);
+    if(index-2 >= 0) twoStep=abs(h[index] - h[index-2]) + topDown(index-2,h,dp);
+    return dp[index]=min(oneStep,twoStep);
+}
+int BottomUp(int n,vd<int>&h){
+    vd<int>dp(n+1,0);
+    FOR(i,1,n+1){
+        int oneStep=1e9,twoStep=1e9;
+        if(i-1 >= 0) oneStep=abs(h[i] - h[i-1])+dp[i-1];
+        if(i-2 >= 0) twoStep=abs(h[i] - h[i-2])+dp[i-2];
+        dp[i]=min(oneStep,twoStep);
+    }
+    return dp[n-1];
+}
+int spaceOptimize(int n,vd<int>&h){
+    int p1=0,p2=0,curr;
+    FOR(i,1,n){
+        int oneStep=1e9,twoStep=1e9;
+        if(i-1 >= 0) oneStep=abs(h[i] - h[i-1])+p1;
+        if(i-2 >= 0) twoStep=abs(h[i] - h[i-2])+p2;
+        curr=min(oneStep,twoStep);
+        p2=p1;
+        p1=curr;
+    }
+    return p1;
+}
 void itachi_1609(){
-    
+    vd<int>dp(100001,-1);
+    vd<int>h={1,2,3,4};
+    print(topDown(len(h) - 1,h,dp));printn();
+    print(BottomUp(len(h),h));printn();
+    print(spaceOptimize(len(h),h));printn();
     return;
 }
 int main(){

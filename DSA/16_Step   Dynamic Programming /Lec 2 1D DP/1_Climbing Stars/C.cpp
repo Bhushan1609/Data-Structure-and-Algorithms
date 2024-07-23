@@ -88,8 +88,36 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+int topDown(int n,vd<int>&dp){
+    if(n<=0)return (n == 0) ? 1 : 0;
+    if(dp[n] != -1)return dp[n];
+    return dp[n]=topDown(n-1,dp) + topDown(n-2,dp);
+}
+int BotttomUp(int n){
+    vd<int>dp(n+1,0);
+    dp[0]=dp[1]=1;
+    FOR(i,2,n+1){
+        dp[i]=dp[i-1]+dp[i-2];
+    }
+    return dp[n];
+}
+int spaceOptimize(int n){
+    int p1=1,p2=1,curr;
+    FOR(i,2,n+1){
+        curr=p1+p2;
+        p1=p2;
+        p2=curr;
+    }
+    return p2;
+}
+
 void itachi_1609(){
-    
+    int n=10;
+    vd<int>dp(n+1,-1);
+    print(topDown(n,dp));printn();
+    print(BotttomUp(n));printn();
+    print(spaceOptimize(n));printn();
     return;
 }
 int main(){
