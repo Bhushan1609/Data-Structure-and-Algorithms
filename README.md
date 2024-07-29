@@ -4,7 +4,7 @@ Hello! 👋 My name is Bhushan Thombare, and I'm on a journey to conquer data st
 
 ## About the Repository
 
-In this repository, I am tackling Striver's DSA Sheet , a curated collection of problems designed to strengthen foundational skills in algorithms and data structures.
+In this repository,I am tackling Striver's DSA Sheet , a curated collection of problems designed to strengthen foundational skills in algorithms and data structures.
 
 ## Languages Used
 
