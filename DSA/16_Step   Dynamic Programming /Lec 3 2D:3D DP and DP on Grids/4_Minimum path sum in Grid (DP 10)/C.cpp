@@ -88,8 +88,53 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[201][201];
+int topDown(int i,int j,int n,int m,vdd<int>&grid){
+    if(i==0 && j==0) return grid[i][j];
+    if(dp[i][j] != -1)return dp[i][j];
+    int goEitherLeftUp=1e9;
+    if((i-1)>=0 and (i-1)<n)goEitherLeftUp=min(goEitherLeftUp,topDown(i-1,j,n,m,grid));
+    if((j-1)>=0 and (j-1)<m)goEitherLeftUp=min(goEitherLeftUp,topDown(i,j-1,n,m,grid));
+    return dp[i][j] = grid[i][j]+goEitherLeftUp;
+}
+int bottomUp(int n,int m,vdd<int>&grid){
+    vdd<int>dp(n,vd<int>(m,0));
+    FOR(i,n){
+        FOR(j,m){
+            if(i==0 and j==0)dp[0][0]=grid[0][0];
+            else{
+                dp[i][j] = grid[i][j] + min( (i>0) ? dp[i-1][j] : 1e9 , (j>0) ? dp[i][j-1] : 1e9);
+            }
+        }
+    }
+    return dp[n-1][m-1];
+}
+int spaceOptimize(int n,int m,vdd<int>&grid){
+    vd<int>prev(m,0);
+    FOR(i,n){
+        vd<int>temp(m,0);
+        FOR(j,m){
+            if(i==0 and j==0)temp[0]=grid[i][j];
+            else{
+                temp[j] = grid[i][j] + min( (i>0) ? prev[j] : 1e9 , (j>0) ? temp[j-1] : 1e9);
+            }
+        }
+        swap(prev,temp);
+    }
+    return prev[m-1];
+}
 void itachi_1609(){
-    
+    vdd<int>grid={
+        {1,3,1},
+        {1,5,1},
+        {4,2,1}
+    };
+    int n=len(grid);
+    int m=len(grid[0]);
+    FOR(i,201 * 201) dp[i/201][i%201] = -1;
+    print(topDown(n-1,m-1,n,m,grid));printn();
+    print(bottomUp(n,m,grid));printn();
+    print(spaceOptimize(n,m,grid));printn();
     return;
 }
 int main(){

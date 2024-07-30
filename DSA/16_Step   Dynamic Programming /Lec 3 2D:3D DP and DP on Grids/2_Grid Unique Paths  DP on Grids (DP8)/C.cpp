@@ -88,8 +88,53 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[101][101];
+int topDown(int i , int j , int n , int m){
+    if(i==0 && j==0)return 1;
+    if(dp[i][j] != -1)return dp[i][j];
+    int count=0;
+    int newi=i-1,newj=j;
+    if(newi >= 0 and newi < n and newj >=0 and newj < m ){
+        count += topDown(newi,newj,n,m);
+    }
+    newi = i;
+    newj = j-1;
+    if(newi >= 0 and newi < n and newj >=0 and newj < m ){
+        count += topDown(newi,newj,n,m);
+    }
+    return dp[i][j]=count;
+}
+int bottomUp(int n,int m){
+    vdd<int>dp(n,vd<int>(m,0));
+    FOR(i,n){
+        FOR(j,m){
+            if(i==0 &&  j==0)dp[i][j]=1;
+            else{
+                dp[i][j]= ((i>0) ? dp[i-1][j] : 0 ) + ((j>0) ? dp[i][j-1] : 0);
+            }
+        }
+    }
+    return dp[n-1][m-1];
+}
+int spaceOptimize(int n,int m){
+    vd<int>prev(m,0);
+    FOR(i,n){
+        vd<int>temp(m,0);
+        FOR(j,m){
+            if(i==0 && j==0)temp[j]=1;
+            else{
+                temp[j]= ((i>0) ? prev[j] : 0 ) + ((j>0) ? temp[j-1] : 0);
+            }
+        }
+        prev=temp;
+    }
+    return prev[m-1];
+}
 void itachi_1609(){
-    
+    FOR(i,101 * 101) dp[i/101][i%101] = -1;
+    print(topDown(5-1,5-1,5,5));printn();
+    print(bottomUp(5,5));printn();
+    print(spaceOptimize(5,5));printn();
     return;
 }
 int main(){

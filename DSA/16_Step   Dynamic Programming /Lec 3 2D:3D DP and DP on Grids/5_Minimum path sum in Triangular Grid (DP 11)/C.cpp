@@ -88,8 +88,57 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[201][201];
+int topDown(int i,int j,int n,vdd<int>&triangle){
+    if(i==n-1)return triangle[i][j];
+    if(dp[i][j] != -1)return dp[i][j];
+    int minPathSum=1e9;
+    int newi=i+1;
+    int newj=j;
+    if(newi>=0 and newi<n and newj>=0 and newj<=i+1){
+        minPathSum=min(minPathSum ,topDown(newi,newj,n,triangle));
+    }
+    newi=i+1;
+    newj=j+1;
+    if(newi>=0 and newi<n and newj>=0 and newj<=i+1){
+        minPathSum=min(minPathSum ,topDown(newi,newj,n,triangle));
+    }
+    return dp[i][j]=triangle[i][j]+minPathSum;
+}
+int bottomUp(int n,vdd<int>&triangle){
+    vdd<int>dp(n,vd<int>(n,0));
+    FOR(j,n)dp[n-1][j]=triangle[n-1][j];
+    FOR_R(i,n-1){
+        FOR_R(j,i+1){
+            dp[i][j]=triangle[i][j] + min(dp[i+1][j] , dp[i+1][j+1]);
+        }
+    }
+    return dp[0][0];
+}
+int spaceOptimize(int n,vdd<int>&triangle){
+    vd<int>next(n,0);
+    FOR(j,n)next[j]=triangle[n-1][j];
+    FOR_R(i,n-1){
+        vd<int>temp(n,0);
+        FOR_R(j,i+1){
+            temp[j]=triangle[i][j] + min(next[j] , next[j+1]);
+        }
+        swap(next,temp);
+    }
+    return next[0];
+}
 void itachi_1609(){
-    
+    vdd<int>triangle={
+        {2},
+        {3,4},
+        {6,5,7},
+        {4,1,8,3}
+    };
+    int n=len(triangle);
+    FOR(i, 201 * 201) dp[i/201][i%201] = -1;
+    print(topDown(0,0,n,triangle));printn();
+    print(bottomUp(n,triangle));printn();
+    print(spaceOptimize(n,triangle));printn();
     return;
 }
 int main(){

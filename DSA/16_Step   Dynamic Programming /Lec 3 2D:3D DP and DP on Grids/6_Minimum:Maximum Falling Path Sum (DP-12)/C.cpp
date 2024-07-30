@@ -88,8 +88,58 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[101][101];
+int topDown(int i ,int j ,int n ,int m,vdd<int>&matrix){
+    if(i==0) return matrix[0][j];
+    if(dp[i][j] != -1)return dp[i][j];
+    int ans=1e9;
+    int newi=i-1;
+    int newj=j;
+    if(newi >= 0 and newi < n and newj >=0 and newj < m)ans=min(ans,topDown(newi,newj,n,m,matrix));
+    newi=i-1;
+    newj=j-1;
+    if(newi >= 0 and newi < n and newj >=0 and newj < m)ans=min(ans,topDown(newi,newj,n,m,matrix));
+    newi=i-1;
+    newj=j+1;
+    if(newi >= 0 and newi < n and newj >=0 and newj < m)ans=min(ans,topDown(newi,newj,n,m,matrix));
+    return dp[i][j] = matrix[i][j]+ans;
+}
+int bottomUp(int n,int m,vdd<int>&matrix){
+    vdd<int>dp(n,vd<int>(m,0));
+    FOR(i,n)dp[0][i]=matrix[0][i];
+    FOR(i,1,n){
+        FOR(j,m){
+            dp[i][j]=matrix[i][j]+min({ ( (i>0) ? dp[i-1][j]  : 1e9)  , ( (i>0 && j>0) ? dp[i-1][j-1]  : 1e9) , ( (i>0 && j<(m-1)) ? dp[i-1][j+1]  : 1e9) });
+        }
+    }
+    return MIN(dp[n-1]);
+}
+int spaceOptimize(int n,int m,vdd<int>&matrix){
+    vd<int>prev(n,0);
+    FOR(i,n)prev[i]=matrix[0][i];
+    FOR(i,1,n){
+        vd<int>temp(n,0);
+        FOR(j,m){
+            temp[j]=matrix[i][j]+min({ ( (i>0) ? prev[j]  : 1e9)  , ( (i>0 && j>0) ? prev[j-1]  : 1e9) , ( (i>0 && j<(m-1)) ? prev[j+1]  : 1e9) });
+        }
+        swap(prev,temp);
+    }
+    return MIN(prev);
+}
 void itachi_1609(){
-    
+    vdd<int>matrix{
+        {2,1,3},
+        {6,5,4},
+        {7,8,9}
+    };
+    int n=len(matrix);
+    int m=len(matrix[0]);
+    FOR(i, 101 * 101) dp[i/101][i%101]=-1;
+    int ans=1e9;
+    FOR(j,m) ans=min(ans,topDown(n-1,j,n,m,matrix));
+    print(ans);printn();
+    print(bottomUp(n,m,matrix));printn();
+    print(spaceOptimize(n,m,matrix));printn();
     return;
 }
 int main(){

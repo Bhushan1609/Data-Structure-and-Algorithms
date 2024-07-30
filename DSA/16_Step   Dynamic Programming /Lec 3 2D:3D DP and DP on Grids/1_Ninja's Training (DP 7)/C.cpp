@@ -88,8 +88,59 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
-void itachi_1609(){
+
+int topDown(int i,int j,vdd<int>&arr,vdd<int>&dp){
+    if(i<0)return 0;
+    if(dp[i][j] != -1)return dp[i][j];
+    int ans=-1e9;
+    FOR(3)if(_ != j) ans=max(ans,arr[i][j]+topDown(i-1,_,arr,dp));
+    return dp[i][j]=ans;
+}
+int bottomUp(vdd<int>&arr){
+    int n=len(arr);
+    vdd<int>dp(n+1,vd<int>(3,0));
+    dp[0][0]=arr[0][0];
+    dp[0][1]=arr[0][1];
+    dp[0][2]=arr[0][2];
     
+    FOR(i,len(arr)){
+        if(i){
+            dp[i][0] = arr[i][0] + max(dp[i-1][1] , dp[i-1][2]);
+            dp[i][1] = arr[i][1] + max(dp[i-1][0] , dp[i-1][2]);
+            dp[i][2] = arr[i][2] + max(dp[i-1][1] , dp[i-1][0]);
+        }
+    }
+    return max({dp[n-1][0] , dp[n-1][1] , dp[n-1][2]});
+}
+int spaceOptimize(vdd<int>&arr){
+    int first=arr[0][0];
+    int second=arr[0][1];
+    int third=arr[0][2];
+    FOR(i,len(arr)){
+        if(i){
+            int newfirst=arr[i][0] + max(second , third);
+            int newsecond=arr[i][1] + max(first , third);
+            int newthird=arr[i][2] + max(second , first);
+            first=newfirst;
+            second=newsecond;
+            third=newthird;
+        }
+    }
+    return max({first,second,third});
+}
+void itachi_1609(){
+    vdd<int>arr={
+        {1,2,5},
+        {3,1,1},
+        {3,3,3}
+    };
+    int n=len(arr);
+    int ans=-1e9;
+    vdd<int>dp(n+1,vd<int>(3,-1));
+    FOR(3)ans=max(ans,topDown(n-1,_,arr,dp));
+    print(ans);printn();
+    print(bottomUp(arr));printn();
+    print(spaceOptimize(arr));printn();
     return;
 }
 int main(){
