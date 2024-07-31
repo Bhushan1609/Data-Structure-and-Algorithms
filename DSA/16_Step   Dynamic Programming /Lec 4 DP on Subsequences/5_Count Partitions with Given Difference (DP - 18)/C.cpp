@@ -88,8 +88,64 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[51][2501];
+int topDown(int index,int sum , vector<int>&arr){
+	if(index == 0){
+        if(sum == 0 and arr[0] == 0) return 2;
+        if(sum ==0 or sum == arr[0]) return 1;
+        return 0;
+    }
+    if(index==0)return arr[0]==sum;
+    if(dp[index][sum] != -1)return dp[index][sum];
+    int pick=0;
+    int npick=topDown(index-1,sum,arr) % mod;
+    if(arr[index] <= sum) pick=topDown(index-1,sum-arr[index],arr) % mod;
+    return dp[index][sum]=(pick+npick) % mod;
+}
+int bottomUp(vd<int>&arr,int sum){
+    int n=len(arr);
+    vdd<int>dp(n,vd<int>(sum+1,0));
+    if(!arr[0]) dp[0][0]+=2;
+    else dp[0][0]+=1;
+    if(arr[0] and arr[0] <= sum)dp[0][arr[0]]+=1;
+    if(arr[0] <= sum)dp[0][arr[0]]=1;
+    FOR(i,1,n){
+        FOR(j,sum+1){
+          dp[i][j]=dp[i-1][j] + ((arr[i] <= j) ? dp[i-1][j-arr[i]] : 0);
+        }
+    }
+    return dp[n-1][sum];
+}
+int spaceOptimize(vd<int>&arr,int sum){
+    int n=len(arr);
+    vd<int>prev(sum+1,0);
+    if(!arr[0]) prev[0]+=2;
+    else prev[0]+=1;
+    if(arr[0] and arr[0] <= sum)prev[arr[0]]+=1;
+    if(arr[0] <= sum)prev[arr[0]]=1;
+    FOR(i,1,n){
+        vd<int>curr(sum+1,0);
+        FOR(j,sum+1){
+          curr[j]=prev[j] + ((arr[i] <= j) ? prev[j-arr[i]] : 0);
+        }
+        swap(prev,curr);
+    }
+    return prev[sum];
+}
 void itachi_1609(){
-    
+    vd<int>arr={5, 2 ,6 ,4};
+    int d=3;
+    int totSum=0;
+    for(auto i:arr)totSum+=i;
+    if((totSum-d)<0 or (totSum-d)%2) return print("0");
+    for(int i=0;i<51;i++){
+		for(int j=0;j<2501;j++){
+			dp[i][j]=-1;
+		}
+	}
+    print(topDown(len(arr) - 1, (totSum-d)/2, arr));printn();
+    print(bottomUp(arr,(totSum-d)/2));printn();
+    print(spaceOptimize(arr,(totSum-d)/2));printn();
     return;
 }
 int main(){
