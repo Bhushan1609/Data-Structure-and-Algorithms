@@ -88,8 +88,53 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[201][20001];
+int topDown(int index,int sum,vd<int>&arr){
+    if(sum<=0)return (sum==0);
+    if(index<=0)return (index == 0 && sum==arr[0]) ? 1 : 0; 
+    if(dp[index][sum] != -1)return dp[index][sum];
+    int pick=0;
+    int npick=0;
+    pick=topDown(index-1,sum-arr[index],arr);
+    npick=topDown(index-1,sum,arr);
+    return dp[index][sum]=max(pick,npick);
+}
+int bottomUp(int n,int sum,vd<int>&arr){
+    vdd<int>dp(201 ,vd<int>(20001,0));
+    FOR(i,n) dp[i][0]=1;
+    dp[0][arr[0]]=1;
+    FOR(i,1,n){
+       FOR(j,1,sum+1){
+           int pick=((arr[i] <= j) ? dp[i-1][j-arr[i]] : -1e9);
+           dp[i][j]=max(dp[i-1][j] ,  pick);
+       }
+    }
+    return dp[n-1][sum];
+}
+int spaceOptimize(int n,int sum,vd<int>&arr){
+    vd<int>prev(20001,0);
+    prev[0]=1;
+    prev[arr[0]]=1;
+    FOR(i,1,n){
+       vd<int>temp(20001,0);
+       temp[0]=1;//catch here
+       FOR(j,1,sum+1){
+           int pick=((arr[i] <= j) ? prev[j-arr[i]] : -1e9);
+           temp[j]=max(prev[j] ,  pick);
+       }
+       swap(temp,prev);
+    }
+    return prev[sum];
+}
 void itachi_1609(){
-    
+    vd<int>nums={1,5,11,5};
+    int sum=accumulate(all(nums),0);
+    if(sum & 1)return print(false);
+    FOR(i, 201 * 20001) dp[i/20001][i%20001]=-1;
+    int n=len(nums);
+    print(topDown(n-1,sum/2,nums));printn();
+    print(bottomUp(n,sum/2,nums));printn();
+    print(spaceOptimize(n,sum/2,nums));printn();
     return;
 }
 int main(){

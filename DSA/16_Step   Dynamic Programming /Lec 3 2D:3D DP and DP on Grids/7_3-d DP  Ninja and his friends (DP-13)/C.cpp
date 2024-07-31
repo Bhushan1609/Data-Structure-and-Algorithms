@@ -88,8 +88,93 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<int>movements={-1,0,1};
+int dp[101][101][101];
+int topDown(int i,int j,int k,int n,int m,vdd<int>&grid){
+    if(i==n-1) return (j==k) ? grid[i][j] : grid[i][j] + grid[i][k];
+    if(dp[i][j][k] != -1)return dp[i][j][k];
+    int count=0;
+    for(auto &x : movements){
+        for(auto &y :movements){
+            int newj=j+x;
+            int newk=k+y;
+            if(newj>=0 and newj<m and newk>=0 and newk<m){
+                count=max(count,topDown(i+1,newj,newk,n,m,grid));
+            }
+        }
+    }
+    return dp[i][j][k]=( (j==k) ? (grid[i][j]):(grid[i][j] + grid[i][k]) )+count;
+}
+int bottomUp(int n,int m,vdd<int>&grid){
+    vddd<int>dp(n,vdd<int>(m,vd<int>(m,0)));
+    FOR(j,m){
+        FOR(k,m){
+            dp[n-1][j][k] = ((j == k) ? grid[n-1][j] : grid[n-1][j] + grid[n-1][k]);
+        }
+    }
+    FOR_R(i,0,n-1){
+        FOR(j,m){
+            FOR(k,m){
+                int count=0;
+                for(auto &x : movements){
+                    for(auto &y :movements){
+                        int newj=j+x;
+                        int newk=k+y;
+                        if(newj>=0 and newj<m and newk>=0 and newk<m){
+                            count=max(count,dp[i+1][newj][newk]);
+                        }
+                    }
+                }
+                dp[i][j][k]=( (j==k) ? (grid[i][j]):(grid[i][j] + grid[i][k]) )+count;
+            }
+        }
+    }
+    return dp[0][0][m-1];
+}
+int spaceOptimize(int n,int m,vdd<int>&grid){
+    vdd<int>next(m,vd<int>(m,0));
+    FOR(j,m){
+        FOR(k,m){
+            next[j][k] = ((j == k) ? grid[n-1][j] : grid[n-1][j] + grid[n-1][k]);
+        }
+    }
+    FOR_R(i,0,n-1){
+        vdd<int>temp(m,vd<int>(m,0));
+        FOR(j,m){
+            FOR(k,m){
+                int count=0;
+                for(auto &x : movements){
+                    for(auto &y :movements){
+                        int newj=j+x;
+                        int newk=k+y;
+                        if(newj>=0 and newj<m and newk>=0 and newk<m){
+                            count=max(count,next[newj][newk]);
+                        }
+                    }
+                }
+                temp[j][k]=( (j==k) ? (grid[i][j]):(grid[i][j] + grid[i][k]) )+count;
+            }
+        }
+        swap(next,temp);
+    }
+    return next[0][m-1];
+}
 void itachi_1609(){
-    
+    vdd<int>grid={
+        {3,1,1},{2,5,1},{1,5,5},{2,1,1}
+    };
+    int n=len(grid);
+    int m=len(grid[0]);
+    FOR(i,101){
+        FOR(j,101){
+            FOR(k,101){
+                dp[i][j][k] = -1;
+            }
+        }
+    }
+    print(topDown(0 , 0 , m-1 , n , m , grid));printn();
+    print(bottomUp(n,m,grid));printn();
+    print(spaceOptimize(n,m,grid));printn();
     return;
 }
 int main(){

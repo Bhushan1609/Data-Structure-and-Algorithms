@@ -88,52 +88,59 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
-int dp[101][10001];
-int topDown(int index,int sum,vd<int>&arr){
-    if(sum==0)return 1;
-    if(index<=0)return (index == 0 && sum==arr[0]) ? 1 : 0; 
-    if(dp[index][sum] != -1)return dp[index][sum];
-    int pick=0;
-    int npick=0;
-    pick=topDown(index-1,sum-arr[index],arr);
-    npick=topDown(index-1,sum,arr);
-    return dp[index][sum]=max(pick,npick);
-}
-int bottomUp(int n,int sum,vd<int>&arr){
-    vdd<int>dp(101 ,vd<int>(10001,0));
-    FOR(i,n) dp[i][0]=1;
-    dp[0][arr[0]]=1;
-    FOR(i,1,n){
-       FOR(j,1,sum+1){
-           int pick=((arr[i] <= j) ? dp[i-1][j-arr[i]] : -1e9);
-           dp[i][j]=max(dp[i-1][j] ,  pick);
-       }
+void dfs(int node,int level,set<char>&ans,
+unordered_map<int,vector<char>>&list,vector<bool>&visited,vector<set<int>>&adj){
+    visited[node]=true;
+    if(level==0){
+        for(auto i:list[node]){
+            ans.insert(i);
+        }
+        return ;
     }
-    return dp[n-1][sum];
-}
-int spaceOptimize(int n,int sum,vd<int>&arr){
-    vd<int>prev(10001,0);
-    prev[0]=1;
-    prev[arr[0]]=1;
-    FOR(i,1,n){
-       vd<int>temp(10001,0);
-       temp[0]=1;//catch here
-       FOR(j,1,sum+1){
-           int pick=((arr[i] <= j) ? prev[j-arr[i]] : -1e9);
-           temp[j]=max(prev[j] ,  pick);
-       }
-       swap(temp,prev);
+    for(auto i:adj[node]){
+        if(visited[i] == false){
+            dfs(i,level-1,ans,list,visited,adj);
+        }
     }
-    return prev[sum];
+    return ;
+}
+void f(){
+    int n;
+    cin >> n;
+    cin.ignore(); 
+    vector<set<int>> adj(n);
+    for (int i = 0; i < n; ++i) {
+        string line;
+        getline(cin, line); 
+        stringstream ss(line);
+        int number;
+        while (ss >> number) {
+            adj[i].insert(number); 
+            adj[number].insert(i); 
+        }
+    }
+    unordered_map<int, vector<char>> list;
+    for (int i = 0; i < n; ++i) {
+        string line;
+        getline(cin, line); 
+        stringstream ss(line);
+        char file;
+        while (ss >> file) {
+            list[i].push_back(file);
+        }
+    }
+    int node=0,level=0;cin>>node>>level;
+    set<char>ans;
+    vector<bool>visited(n,false);
+    dfs(node,level,ans,list,visited,adj);
+    for(auto i:ans){
+        cout<<i<<" ";
+    }
+    cout<<endl;
+    return;
 }
 void itachi_1609(){
-    vd<int>arr={3, 34, 4, 12, 5, 2};
-    int sum=9;
-    FOR(i, 101 * 10001) dp[i/10001][i%10001]=-1;
-    int n=len(arr);
-    print(topDown(n-1,sum,arr));printn();
-    print(bottomUp(n,sum,arr));printn();
-    print(spaceOptimize(n,sum,arr));printn();
+    f();
     return;
 }
 int main(){
