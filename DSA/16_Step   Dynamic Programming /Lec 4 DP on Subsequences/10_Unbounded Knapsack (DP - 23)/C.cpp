@@ -88,8 +88,74 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[10001][10001] = {0};
+int topDown(int index,int w,vd<int>&profit,vd<int>&weight){
+    if(index==0) return (w>=weight[0]) ? ( w/weight[0] ) * profit[0] : 0;
+    if(dp[index][w] != 0)return dp[index][w];
+    int ntake=topDown(index-1,w,profit,weight);
+    int take=0;
+    if (w >= weight[index]) {
+        take=profit[index] + topDown(index, w - weight[index], profit, weight);
+    }
+    return dp[index][w]=max(take,ntake);
+}
+int bottomUp(int w,vd<int>&profit,vd<int>&weight){
+    vdd<int>dp(len(profit) , vd<int>(w+1 , 0));
+    FOR(j,w+1){
+        dp[0][j]=( j/weight[0] ) * profit[0] ;
+    }
+    FOR(i,1,len(profit)){
+        FOR(j,w+1){
+            int ntake=dp[i-1][j];
+            int take=0;
+            if(j>=weight[i]){
+                take=profit[i] + dp[i][j-weight[i]];
+            }
+            dp[i][j]=max(take ,ntake);
+        }
+    }
+    return dp[len(profit) - 1][w];
+}
+int spaceOptmize(int w,vd<int>&profit,vd<int>&weight){
+    vd<int>prev(w+1 , 0), curr(w+1 , 0);
+    FOR(j,w+1)prev[j]=( j/weight[0] ) * profit[0] ;
+    FOR(i,1,len(profit)){
+        FOR(j,w+1){
+            int ntake=prev[j];
+            int take=0;
+            if(j>=weight[i]){
+                take=profit[i]+curr[j-weight[i]];
+            }
+            curr[j]=max(take ,ntake);
+        }
+        swap(curr,prev);
+    }
+    return prev[w];
+}
+int spaceOptmize2(int w,vd<int>&profit,vd<int>&weight){
+    vd<int>prev(w+1 , 0);
+    FOR(j,w+1)prev[j]=( j/weight[0] ) * profit[0] ;
+    FOR(i,1,len(profit)){
+        FOR(j,w+1){
+            int ntake=prev[j];
+            int take=0;
+            if(j>=weight[i]){
+                take=profit[i]+prev[j-weight[i]];
+            }
+            prev[j]=max(take ,ntake);
+        }
+    }
+    return prev[w];
+}
 void itachi_1609(){
-    
+    int w=10;
+    vd<int>profit={5, 11, 13};
+    vd<int>weight={2,4,6};
+    int n=len(weight);
+    print(topDown(n-1 , w , profit , weight));printn();
+    print(bottomUp(w,profit,weight));printn();
+    print(spaceOptmize(w,profit,weight));printn();
+    print(spaceOptmize2(w,profit,weight));printn();
     return;
 }
 int main(){

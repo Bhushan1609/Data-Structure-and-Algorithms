@@ -88,8 +88,67 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[101][101];
+int topDown(int index, int n,vd<int>&price){
+	if(index == 1){
+		return (n>=1) ? n * price[index-1] : 0;
+	}
+	if(dp[index][n] != -1) return dp[index][n];
+	int ntake=topDown(index-1, n, price);
+	int take=0;
+	if(n>=index) take=price[index-1] + topDown(index,n-index,price);
+	return dp[index][n] = max(take,ntake);
+}
+int bottomUp(vd<int>&price){
+	int n = len(price);
+	vdd<int>dp(n+1 , vd<int>(n+1 , 0));
+	FOR(j,n+1) {
+		if(j>=1) dp[1][j]= j * price[0];
+	}
+	FOR(i , 2 , n+1){
+		FOR(j, 1, n+1){
+			dp[i][j] = max(dp[i-1][j],dp[i][j]);
+			if(j>=i) dp[i][j] = max(price[i-1]+dp[i][j-i],dp[i][j]);
+		}
+	}
+	return dp[n][n];
+}
+int spaceOptimize(vd<int>&price){
+	int n = len(price);
+	vd<int>prev(n+1 , 0),curr(n+1,0);
+	FOR(j,n+1) {
+		if(j>=1) prev[j]= j * price[0];
+	}
+	FOR(i , 2 , n+1){
+		FOR(j, 1, n+1){
+			curr[j] = max(prev[j],curr[j]);
+			if(j>=i) curr[j] = max(price[i-1]+curr[j-i],curr[j]);
+		}
+		swap(prev,curr);
+	}
+	return prev[n];
+}
+int spaceOptimize2(vd<int>&price){
+	int n = len(price);
+	vd<int>prev(n+1 , 0);
+	FOR(j,n+1) {
+		if(j>=1) prev[j]= j * price[0];
+	}
+	FOR(i , 2 , n+1){
+		FOR(j, 1, n+1){
+			prev[j] = max(prev[j],prev[j]);
+			if(j>=i) prev[j] = max(price[i-1]+prev[j-i],prev[j]);
+		}
+	}
+	return prev[n];
+}
 void itachi_1609(){
-    
+    vd<int>price={2,5,7,8,10};
+    int n=len(price);
+    FOR(i , 101 * 101) dp[i/101][i%101] = -1;
+	print(topDown(n,n,price));printn();
+	print(bottomUp(price));printn();
+	print(spaceOptimize2(price));printn();
     return;
 }
 int main(){
