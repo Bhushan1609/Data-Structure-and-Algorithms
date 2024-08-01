@@ -88,9 +88,60 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[13][10001];
+int topDown(int index,int amount,vd<int>&coins){
+    if(amount == 0)return 0;
+    if(index==0){
+        if((amount % coins[0]) == 0) return amount/coins[0];
+        return 1e9;
+    }
+    if(dp[index][amount] != -1)return dp[index][amount];
+    int take=1e9;
+    if(amount >= coins[index])take = 1+topDown(index,amount - coins[index],coins);
+    int ntake=topDown(index-1,amount,coins);
+    return dp[index][amount]=min(take , ntake);
+}
+int bottomUp(int amount,vd<int>&coins){
+    int n=len(coins);
+    vdd<int>dp(n , vd<int>(amount + 1 , 1e9));
+    FOR(j,0,amount + 1) {
+        if(j % coins[0] == 0)dp[0][j]=j/coins[0];
+    }
+    FOR(i,1,n){
+        FOR(j,0,amount+1){
+            int val=j >= coins[i] ? 1 + dp[i][j-coins[i]] : 1e9;
+            dp[i][j]=min(dp[i-1][j] , val );
+        }
+    }
+    return dp[n-1][amount] == 1e9 ? -1 : dp[n-1][amount];
+}
+int spaceOptimize(int amount,vd<int>&coins){
+    int n=len(coins);
+    vd<int>prev(amount + 1 , 1e9),curr(amount+1,1e9);
+    FOR(j,0,amount + 1) {
+        if(j % coins[0] == 0)prev[j]=j/coins[0];
+    }
+    FOR(i,1,n){
+        FOR(j,0,amount+1){
+            int val=j >= coins[i] ? 1 + curr[j-coins[i]] : 1e9;
+            curr[j]=min(prev[j] , val );
+        }
+        swap(prev,curr);
+    }
+    return prev[amount] == 1e9 ? -1 : prev[amount];
+}
 void itachi_1609(){
-    
-    return;
+    vd<int>coins = {1,2,5};
+    int amount = 11;
+    FOR(i,13){
+        FOR(j,10001){
+            dp[i][j]=-1;
+        }
+    }
+    int ans=topDown(len(coins)-1 , amount,coins) ;
+    print(ans == 1e9 ? -1 : ans);printn();
+    print(bottomUp(amount ,coins));printn();
+    print(spaceOptimize(amount ,coins));printn();
 }
 int main(){
     nfs;

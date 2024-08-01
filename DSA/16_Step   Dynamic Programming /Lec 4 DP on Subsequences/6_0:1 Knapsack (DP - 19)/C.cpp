@@ -88,8 +88,61 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[101][1001];
+int topDown(int index,int maxWeight,vd<int>&value,vd<int>&weight){
+	if(index==0) return (maxWeight >= weight[0]) ? value[index] : 0;
+	if(dp[index][maxWeight] != -1)return dp[index][maxWeight];
+	int take=0;
+	if(maxWeight >= weight[index]) take = value[index] + topDown(index-1,maxWeight-weight[index],value,weight);
+	int ntake=topDown(index-1,maxWeight,value,weight);
+	return  dp[index][maxWeight]=max(take,ntake);
+}
+int bottomUp(int maxWeight,vd<int>&value,vd<int>&weight){
+	vdd<int>dp(len(value),vd<int>(maxWeight+1,0));
+	FOR(i,weight[0],maxWeight+1) dp[0][i]=value[0];
+	FOR(i,1 ,len(value)){
+		FOR(j,0,maxWeight+1){
+			int val=(j>=weight[i]) ? value[i] + dp[i-1][j-weight[i]] : -1e9 ;
+			dp[i][j]=max(dp[i-1][j] ,val) ;
+		}
+	}
+	return dp[len(value)-1][maxWeight];
+}
+int spaceOptimize(int maxWeight,vd<int>&value,vd<int>&weight){
+	vd<int>prev(maxWeight+1,0),curr(maxWeight+1,0);
+	FOR(i,weight[0],maxWeight+1) prev[i]=value[0];
+	FOR(i,1 ,len(value)){
+		FOR(j,0,maxWeight+1){
+			int val=(j>=weight[i]) ? value[i] + prev[j-weight[i]] : -1e9 ;
+			curr[j]=max(prev[j] ,val) ;
+		}
+		swap(prev,curr);
+	}
+	return prev[maxWeight];
+}
+int spaceOptimize2(int maxWeight,vd<int>&value,vd<int>&weight){
+	vd<int>prev(maxWeight+1,0);
+	FOR(i,weight[0],maxWeight+1) prev[i]=value[0];
+	FOR(i,1 ,len(value)){
+		FOR_R(j,0,maxWeight+1){
+			int val=(j>=weight[i]) ? value[i] + prev[j-weight[i]] : -1e9 ;
+			prev[j]=max(prev[j] ,val) ;
+		}
+	}
+	return prev[maxWeight];
+}
 void itachi_1609(){
-    
+    vd<int>weight={1 ,2 ,4 ,5},value={5 ,4 ,8 ,6};
+    int maxWeight=5;
+    FOR(i,101){
+		FOR(j,1001){
+			dp[i][j]=-1;
+		}
+	}
+	print(topDown(len(value)-1 , maxWeight , value , weight));printn();
+	print(bottomUp(maxWeight,value,weight));printn();
+	print(spaceOptimize(maxWeight,value,weight));printn();
+	print(spaceOptimize2(maxWeight,value,weight));printn();
     return;
 }
 int main(){
