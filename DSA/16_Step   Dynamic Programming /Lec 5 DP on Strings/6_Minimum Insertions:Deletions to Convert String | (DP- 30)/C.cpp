@@ -88,8 +88,54 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[501][501];
+int topDown(int i,int j,string a,string b){
+    if(i<0 || j<0) return 0;
+    if(dp[i][j] != -1)return dp[i][j];
+    if(a[i] == b[j]) return dp[i][j]=1+topDown(i-1,j-1,a,b);
+    return dp[i][j] = max(topDown(i-1,j,a,b) , topDown(i,j-1,a,b));
+}
+int bottomUp(string a ,string b){
+    int n=len(a);
+    int m=len(b);
+    vdd<int>dp(n,vd<int>(m , 0));
+    FOR(i,n){
+        FOR(j,m){
+            if(a[i] == b[j]) dp[i][j]=1+((i>=1 && j>=1) ? dp[i-1][j-1] : 0);
+            else{
+                if(i>=1)dp[i][j]=max(dp[i][j] , dp[i-1][j]);
+                if(j>=1)dp[i][j]=max(dp[i][j] , dp[i][j-1]);
+            }
+        }
+    }
+    return dp[n-1][m-1];
+}
+
+int spaceOptimize(string a ,string b){
+    int n=len(a);
+    int m=len(b);
+    vd<int>prev(m , 0) , curr(m,0);
+    FOR(i,n){
+        FOR(j,m){
+            if(a[i] == b[j]) curr[j]=1+((i>=1 && j>=1) ? prev[j-1] : 0);
+            else{
+                if(i>=1)curr[j]=max(curr[j] , prev[j]);
+                if(j>=1)curr[j]=max(curr[j] , curr[j-1]);
+            }
+        }
+        swap(prev,curr);
+    }
+    return prev[m-1];
+}
 void itachi_1609(){
-    
+    string word1="sea" , word2="eat";
+    FOR(i , 501 * 501) dp[i/501][i%501] = -1;
+        int ans1=topDown(len(word1)-1,len(word2)-1,word1,word2);
+        int ans2=bottomUp(word1,word2);
+        int ans3=spaceOptimize(word1,word2);
+        print(len(word2)+len(word1)-(ans1<<1));printn();
+        print(len(word2)+len(word1)-(ans2<<1));printn();
+        print(len(word2)+len(word1)-(ans3<<1));printn();
     return;
 }
 int main(){

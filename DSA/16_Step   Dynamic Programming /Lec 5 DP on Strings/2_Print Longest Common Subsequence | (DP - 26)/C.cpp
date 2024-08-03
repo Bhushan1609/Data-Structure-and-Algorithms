@@ -88,8 +88,66 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[1001][1001];
+int topDown(int i,int j,string a,string b){
+    if(i<0 || j<0) return 0;
+    if(dp[i][j] != -1)return dp[i][j];
+    if(a[i] == b[j]) return dp[i][j]=1+topDown(i-1,j-1,a,b);
+    return dp[i][j] = max(topDown(i-1,j,a,b) , topDown(i,j-1,a,b));
+}
+void bottomUp(string a ,string b){
+    int n=len(a);
+    int m=len(b);
+    vdd<int>dp(n,vd<int>(m , 0));
+    FOR(i,n){
+        FOR(j,m){
+            if(a[i] == b[j]) dp[i][j]=1+((i>=1 && j>=1) ? dp[i-1][j-1] : 0);
+            else{
+                if(i>=1)dp[i][j]=max(dp[i][j] , dp[i-1][j]);
+                if(j>=1)dp[i][j]=max(dp[i][j] , dp[i][j-1]);
+            }
+        }
+    }
+    int len=dp[n-1][m-1];
+    string ans(len,'1');
+    int index=len-1;
+    int i=n-1,j=m-1;
+    while(i>=0 && j>=0){
+        if(a[i]==b[j]){
+            ans[index--]=a[i];
+            i=i-1;
+            j=j-1;
+        }
+        else if(dp[i-1][j] > dp[i][j-1]){
+            i=i-1;
+        }
+        else j=j-1;
+    }
+    print(dp[n-1][m-1]);printn();
+    print(ans);
+    return ;
+}
+
+int spaceOptimize(string a ,string b){
+    int n=len(a);
+    int m=len(b);
+    vd<int>prev(m , 0) , curr(m,0);
+    FOR(i,n){
+        FOR(j,m){
+            if(a[i] == b[j]) curr[j]=1+((i>=1 && j>=1) ? prev[j-1] : 0);
+            else{
+                if(i>=1)curr[j]=max(curr[j] , prev[j]);
+                if(j>=1)curr[j]=max(curr[j] , curr[j-1]);
+            }
+        }
+        swap(prev,curr);
+    }
+    return prev[m-1];
+}
 void itachi_1609(){
-    
+    string text1="abcde",text2="ace";
+    FOR(i , 1001 * 1001) dp[i/1001][i%1001] = -1;
+    bottomUp(text1,text2);printn();
     return;
 }
 int main(){

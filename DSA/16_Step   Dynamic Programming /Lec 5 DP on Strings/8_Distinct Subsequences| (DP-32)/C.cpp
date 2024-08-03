@@ -88,8 +88,72 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[1001][1001];
+int topDown(int i,int j,string s,string t){
+    if(j<0) return 1;
+    if(i<0) return 0;
+    if(dp[i][j] != -1)return dp[i][j];
+    if(s[i] == t[j]) return dp[i][j]=topDown(i-1,j-1,s,t) + topDown(i-1,j,s,t);
+    return dp[i][j]=topDown(i-1,j,s,t);
+}
+int bottomUp(string s,string t){
+    int n=len(s);
+    int m=len(t);
+    vdd<double>dp(n+1,vd<double>(m+1, 0));
+    FOR(i,n+1) {
+        dp[i][0]=1;
+    }
+    FOR(i,1,n+1){
+        FOR(j,1,m+1){
+            if(s[i-1] == t[j-1]) {
+                dp[i][j]=dp[i][j]+dp[i-1][j];
+                dp[i][j]=dp[i][j]+dp[i-1][j-1];
+            }
+            else {
+                dp[i][j]=dp[i-1][j];
+            }
+        }
+    }
+    return dp[n][m];
+}
+int spaceOptimize(string s ,string t){
+    int n=len(s);
+    int m=len(t);
+    vd<double>prev(m+1, 0),curr(m+1,0);
+    FOR(i,n+1) {
+        prev[0]=1;
+    }
+    FOR(i,1,n+1){
+        FOR(j,1,m+1){
+            if(s[i-1] == t[j-1]) {
+                curr[j]=prev[j]+prev[j-1];
+            }
+            else {
+                curr[j]=prev[j];
+            }
+        }
+        swap(prev,curr);
+    }
+    return prev[m];
+}
+int spaceOptimize2(string a ,string b){
+    int n=a.size(),m=b.size();
+        vector<int>prev(m+1,0);
+        prev[0]=1;
+        for(int i=1;i<=n;i++){
+            for(int j=m;j>=1;j--){
+                if(a[i-1]==b[j-1]) prev[j]=(prev[j-1]%mod+prev[j]%mod);
+            }
+        }
+        return prev[m];
+}
 void itachi_1609(){
-    
+    string s="babgbag",t="bag";
+    FOR(i,1001 * 1001) dp[i/1001][i%1001] = -1;
+    print(topDown(len(s) - 1 ,len(t) - 1,s,t));printn();
+    print(bottomUp(s,t));printn();
+    print(spaceOptimize(s,t));printn();
+    print(spaceOptimize2(s,t));printn();
     return;
 }
 int main(){

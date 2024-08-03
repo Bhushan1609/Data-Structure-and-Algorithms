@@ -88,8 +88,53 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
-void itachi_1609(){
+int topDown(int i, int j, string a, string b,int count) {
+    if(i<0 or j<0)return count;
+    if (a[i] == b[j]) {
+        count = topDown(i - 1, j - 1, a,b,count+1);
+    }
     
+    count = max({count , topDown(i-1 , j , a, b , 0) , topDown(i,j-1,a,b,0)});
+    return count;
+}
+int bottomUp(string a,string b){
+    int n=len(a);
+    int m=len(b);
+    int ans=-1e9;
+    vdd<int>dp(n,vd<int>(m, 0));
+    FOR(i,len(a)){
+        FOR(j,len(b)){
+            if(a[i] == b[j]){
+                dp[i][j]=1+( (i>=1 && j>=1) ? dp[i-1][j-1] : 0);
+            }
+            else dp[i][j]=0;
+            ans=max(ans, dp[i][j]);
+        }
+    }
+    return ans;
+}
+int spaceOptimize(string a,string b){
+    int n=len(a);
+    int m=len(b);
+    int ans=-1e9;
+    vd<int>prev(m , 0),curr(m , 0);
+    FOR(i,len(a)){
+        FOR(j,len(b)){
+            if(a[i] == b[j]){
+                curr[j]=1+( (i>=1 && j>=1) ? prev[j-1] : 0);
+            }
+            else curr[j]=0;
+            ans=max(ans, curr[j]);
+        }
+        swap(prev, curr);
+    }
+    return ans;
+}
+void itachi_1609(){
+    string a="abcjklp",b="acjkp";
+    print(topDown(len(a) - 1,len(b) - 1 , a , b, 0));printn();
+    print(bottomUp(a,b));printn();
+    print(spaceOptimize(a,b));printn();
     return;
 }
 int main(){

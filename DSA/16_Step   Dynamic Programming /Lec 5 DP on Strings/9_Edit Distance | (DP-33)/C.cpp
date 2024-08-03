@@ -88,8 +88,53 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[501][501];
+int topDown(int i,int j,string a,string b){
+    if(i<0) return j+1;
+    if(j<0) return i+1;
+    if(dp[i][j] != -1)return dp[i][j];
+    if(a[i] == b[j]) return dp[i][j]=topDown(i-1,j-1,a,b);
+    return dp[i][j]=min({1+topDown(i-1,j-1,a,b) , 1+topDown(i-1,j,a,b), 1+topDown(i,j-1,a,b)});
+}
+int bottomUp(string a,string b){
+    int n=len(a) + 1;
+    int m=len(b) + 1;
+    vdd<int>dp(n,vd<int>(m,0));
+    FOR(i,n) dp[i][0]=i;
+    FOR(j,m) dp[0][j]=j;
+    FOR(i,1,n){
+        FOR(j,1,m){
+            if(a[i-1] == b[j-1]) dp[i][j]=dp[i-1][j-1];
+            else{
+                dp[i][j]=min({1+dp[i-1][j-1], 1+dp[i-1][j], 1+dp[i][j-1]});
+            }
+        }
+    }
+    return dp[n-1][m-1];
+}
+int spaceOptimize(string a,string b){
+    int n=len(a) + 1;
+    int m=len(b) + 1;
+    vd<int>prev(m,0) , curr(m,0);
+    FOR(j,m) prev[j]=j;
+    FOR(i,1,n){
+        curr[0]=i;
+        FOR(j,1,m){
+            if(a[i-1] == b[j-1]) curr[j]=prev[j-1];
+            else{
+                curr[j]=min({1+prev[j-1], 1+prev[j], 1+curr[j-1]});
+            }
+        }
+        swap(prev,curr);
+    }
+    return prev[m-1];
+}
 void itachi_1609(){
-    
+    string a="horse",b="ros";
+    FOR(i,501 * 501) dp[i/501][i%501] = -1;
+    print(topDown(len(a)-1,len(b)-1,a,b));printn();
+    print(bottomUp(a,b));printn();
+    print(spaceOptimize(a,b));printn();
     return;
 }
 int main(){
