@@ -89,7 +89,15 @@ void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
 void itachi_1609(){
-    
+    vd<int>prices={1,2,3,4};
+    ll mini=prices[0];
+    ll ans=0;
+    FOR(i,1,len(prices)){
+        ans = max(ans,prices[i]-mini);
+        mini=min(mini,(ll)prices[i]);
+    }
+    print(ans);
+    printn();
     return;
 }
 int main(){
