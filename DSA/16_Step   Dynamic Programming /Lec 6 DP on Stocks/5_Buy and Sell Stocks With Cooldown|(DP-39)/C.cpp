@@ -88,8 +88,62 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+int dp[5001][2];
+int topDown(int index,int buy,vd<int>&prices){
+    if(index>=len(prices)) return 0;
+    if(dp[index][buy] != -1)return dp[index][buy];
+    int profit=0;
+    if(buy){
+        profit=max({-prices[index]+topDown(index+1,0,prices) , topDown(index+1,1,prices)});
+    }
+    else{
+        profit=max({+prices[index]+topDown(index+2,1,prices) , topDown(index+1,0,prices) });
+    }
+    return dp[index][buy]=profit;
+}
+int bottomUp(vd<int>&prices){
+    int n=len(prices);
+    vdd<int>dp(n+1, vd<int>(2,0));
+    dp[n][0]=dp[n][1]=0;
+    FOR_R(index,0,n){
+        FOR(buy,0,2){
+            int profit=0;
+            if(buy){
+                profit=max({-prices[index]+dp[index+1][0] , dp[index+1][1]});
+            }
+            else{
+                profit=max({+prices[index]+((index+2<n)?(dp[index+2][1]):0) , dp[index+1][0] });
+            }
+            dp[index][buy]=profit;
+        }
+    }
+    return dp[0][1];
+}
+int spaceOptimize(vd<int>&prices){
+    int n=len(prices);
+    vd<int>prev(2,0),prev1(2,0),curr(2,0);
+    FOR_R(index,0,n){
+        FOR(buy,0,2){
+            int profit=0;
+            if(buy){
+                profit=max({-prices[index]+prev1[0] , prev1[1]});
+            }
+            else{
+                profit=max({+prices[index]+prev[1] , prev1[0] });
+            }
+            curr[buy]=profit;
+        }
+        swap(prev,prev1);
+        swap(prev1,curr);
+    }
+    return prev1[1];
+}
 void itachi_1609(){
-    
+    vd<int>prices={1,2,3,4};
+    FOR(i, 5001 * 2) dp[i/2][i%2] = -1;
+    print(topDown(0,1,prices));printn();
+    print(bottomUp(prices));printn();
+    print(spaceOptimize(prices));printn();
     return;
 }
 int main(){
