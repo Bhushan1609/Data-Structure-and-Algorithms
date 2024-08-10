@@ -88,8 +88,84 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+
+
+int dp[2501][2501];
+int topDown(int index,int prev,vd<int>&nums){
+    if(index>=len(nums)) return 0;
+    if(dp[index][prev+1] != -1)return dp[index][prev+1];
+    int len=0;
+    if(prev == -1 or nums[prev]<nums[index]){
+        len=max(len,1+topDown(index+1,index,nums));
+    }
+    len=max(len,topDown(index+1,prev,nums));
+    return dp[index][prev+1]=len;
+}
+int bottomUp(vd<int>&nums){
+    int n=len(nums);
+    vdd<int>dp(n+1,vd<int>(n+1,0));
+    FOR_R(index,n){
+        FOR_R(prev,-1,index){
+            int len=0;
+            if(prev == -1 or nums[prev]<nums[index]){
+                len=max(len,1+dp[index+1][index+1]);
+            }
+            len=max(len,dp[index+1][prev+1]);
+            dp[index][prev+1]=len;
+        }
+    }
+    return dp[0][-1+1];
+}
+int spaceOptimize(vd<int>&nums){
+    int n=len(nums);
+    vd<int>prevV(n+1,0),curr(n+1,0);
+    FOR_R(index,n){
+        FOR_R(prev,-1,index){
+            int len=0;
+            if(prev == -1 or nums[prev]<nums[index]){
+                len=max(len,1+prevV[index+1]);
+            }
+            len=max(len,prevV[prev+1]);
+            curr[prev+1]=len;
+        }
+        swap(prevV,curr);
+    }
+    return prevV[-1+1];
+}
+int printLIS(vd<int>&nums){
+    int n=len(nums);
+    vd<int>dp(n,1);
+    int maxi=0;
+    FOR(i,n){
+        FOR(prev,0,i){
+            if(nums[prev]<nums[i])dp[i]=max(dp[i],1+dp[prev]);
+        }
+        maxi=max(maxi,dp[i]);
+    }
+    return maxi;
+}
+int binarySearch(vd<int>&nums){
+    vd<int>temp;
+    int index;
+    FOR(i,len(nums)){
+        if(!len(temp)) temp.pb(nums[i]);
+        else{
+            index=lower_bound(all(temp),nums[i])-temp.begin();
+            if(index==len(temp)) temp.pb(nums[i]);
+            else temp[index]=nums[i];
+        }
+    }
+    return len(temp);
+}
 void itachi_1609(){
-    
+    FOR(i, 2501 * 2501) dp[i/2501][i%2501]=-1;
+    vd<int>nums={10,9,2,5,3,7,101,18};
+    print(topDown(0,-1,nums));printn();
+    print(bottomUp(nums));printn();
+    print(spaceOptimize(nums));printn();
+    print(printLIS(nums));printn();
+    print(binarySearch(nums));printn();
     return;
 }
 int main(){
