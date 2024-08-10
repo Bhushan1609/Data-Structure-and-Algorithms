@@ -88,9 +88,56 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+int dp[1001][1001];
+bool check(string a,string b){
+    if(len(b) != len(a)+1)return false;
+    int i=0;
+    int j=0;
+    while(i<len(a) && j<len(b)){
+        if(a[i]==b[j]){
+            i++;
+            j++;
+        }
+        else j++;
+    }
+    if(i<len(a) && j>=len(b)) return false;
+    return true;
+}
+int topDown(int index,int prev,vd<string>&w){
+    if(index>=len(w))return 0;
+    if(dp[index][prev+1] != -1)return dp[index][prev+1];
+    int len=0;
+    if(prev==-1)len=max(len,1+topDown(index+1,index,w));
+    else if(check(w[index] , w[prev])){
+        len=max(len,1+topDown(index+1,index,w));
+    }
+    len=max(len,topDown(index+1,prev,w));
+    return dp[index][prev+1]=len;
+}
+int tabulation(vd<string>&w){
+    int n=len(w);
+    vd<int>dp(n,1);
+    int maxi=1;
+    FOR(i,n){
+        FOR(prev,i){
+            if(check(w[prev], w[i]) && 1 + dp[prev] > dp[i]){
+                dp[i] = 1 + dp[prev];
+            }
+        }
+        if(dp[i]>maxi)maxi=dp[i];
+    }
+    return maxi;
+}
 void itachi_1609(){
-    
-    return;
+    vd<string>w={"a","b","ba","bca","bda","bdca"};
+    FOR(i,1001 * 1001) dp[i/1001][i%1001] = -1;
+    sort(all(w),[&](string &a,string &b){
+        if(len(a)<len(b)) return true;
+        return false;
+    });
+    print(topDown(0,-1,w));printn();
+    print(tabulation(w));printn();
 }
 int main(){
     nfs;

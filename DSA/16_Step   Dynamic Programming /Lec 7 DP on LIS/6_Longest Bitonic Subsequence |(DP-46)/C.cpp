@@ -88,8 +88,28 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+
+int tabulation(vector<int>&nums){
+	int n=len(nums),ans=0;
+    vd<int>dp1(n,1),dp2(n,1);
+    FOR(i,n){
+        FOR(prev,0,i){
+            if(nums[prev]<nums[i])dp1[i]=max(dp1[i],1+dp1[prev]);
+        }
+    }
+	FOR_R(i,n){
+        FOR_R(prev,i,n){
+            if(nums[prev]<nums[i])dp2[i]=max(dp2[i],1+dp2[prev]);
+        }
+    }
+	FOR(i,n){
+		ans = max(ans , dp1[i]+dp2[i]-1);
+	}
+	return ans;
+}
 void itachi_1609(){
-    
+    vd<int>nums={};
+    print(tabulation(nums));printn();
     return;
 }
 int main(){

@@ -133,7 +133,7 @@ int spaceOptimize(vd<int>&nums){
     }
     return prevV[-1+1];
 }
-int printLIS(vd<int>&nums){
+int LISByN2(vd<int>&nums){
     int n=len(nums);
     vd<int>dp(n,1);
     int maxi=0;
@@ -144,6 +144,36 @@ int printLIS(vd<int>&nums){
         maxi=max(maxi,dp[i]);
     }
     return maxi;
+}
+void printLIS(vd<int>&nums){
+    int n=len(nums);
+    vd<int>dp(n,1),hash(n,1);
+    FOR(i,n){
+        hash[i] = i; 
+        FOR(prev,i){
+            if(nums[prev]<nums[i] && 1 + dp[prev] > dp[i]){
+                dp[i] = 1 + dp[prev];
+                hash[i] = prev;
+            }
+        }
+    }
+    int ans = -1;
+    int lastIndex =-1;
+    for(int i=0; i<=n-1; i++){
+        if(dp[i]> ans){
+            ans = dp[i];
+            lastIndex = i;
+        }
+    }
+    vd<int> temp;
+    temp.push_back(nums[lastIndex]);
+    while(hash[lastIndex] != lastIndex){ 
+        lastIndex = hash[lastIndex];
+        temp.push_back(nums[lastIndex]);    
+    }
+    reverse(all(temp));
+    print(temp);
+    return ;
 }
 int binarySearch(vd<int>&nums){
     vd<int>temp;
@@ -164,7 +194,7 @@ void itachi_1609(){
     print(topDown(0,-1,nums));printn();
     print(bottomUp(nums));printn();
     print(spaceOptimize(nums));printn();
-    print(printLIS(nums));printn();
+    printLIS(nums);printn();
     print(binarySearch(nums));printn();
     return;
 }

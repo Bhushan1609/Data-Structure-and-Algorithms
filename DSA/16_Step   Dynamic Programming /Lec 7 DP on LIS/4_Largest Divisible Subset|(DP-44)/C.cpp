@@ -88,8 +88,42 @@ void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
 void No(bool t = 1) { Yes(!t); }
 void yes(bool t = 1) { print(t ? "yes" : "no"); }
 void no(bool t = 1) { yes(!t); }
+vd<int> printLIS(vd<int>&nums){
+    int n=len(nums);
+    vd<int>dp(n,1),hash(n,1);
+    FOR(i,n){
+        hash[i] = i; 
+        FOR(prev,i){
+            if(nums[i]%nums[prev]==0 && 1 + dp[prev] > dp[i]){
+                dp[i] = 1 + dp[prev];
+                hash[i] = prev;
+            }
+        }
+    }
+    int ans = -1;
+    int lastIndex =-1;
+    for(int i=0; i<=n-1; i++){
+        if(dp[i]> ans){
+            ans = dp[i];
+            lastIndex = i;
+        }
+    }
+    vd<int> temp;
+    temp.push_back(nums[lastIndex]);
+    while(hash[lastIndex] != lastIndex){ 
+        lastIndex = hash[lastIndex];
+        temp.push_back(nums[lastIndex]);    
+    }
+    reverse(all(temp));
+    // print(temp);
+    return temp;
+}
 void itachi_1609(){
-    
+    vd<int>nums={1,2,4,8};
+    sort(all(nums));
+    vd<int>a=printLIS(nums);
+    print(a);
+    printn();
     return;
 }
 int main(){
