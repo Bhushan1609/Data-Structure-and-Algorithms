@@ -9,7 +9,7 @@ class Node{
 function levelOrder(root){
     const q=[];
     q.push(root);
-    while(q.length){
+    while(q.length){ 
         let n=q.length;
         for(let i=0;i<n;i++){
             const temp=q.shift();
