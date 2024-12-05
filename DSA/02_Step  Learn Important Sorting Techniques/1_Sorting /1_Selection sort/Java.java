@@ -10,7 +10,7 @@ public class Java{
                 }
             }
             int temp=arr.get(i);
-            arr.set(i , arr.get(mini));
+            arr.set(i, arr.get(mini));
             arr.set(mini,temp);
         }
         for(int i=0;i<n;i++){

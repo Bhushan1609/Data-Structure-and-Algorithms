@@ -1,7 +1,6 @@
 let arr=[13,46,24,52,20,97];
 selectionSort(arr);
 console.log(arr);
-
 function selectionSort(arr){
     let n=arr.length;
     for(let i=0;i<n-2;i++){
