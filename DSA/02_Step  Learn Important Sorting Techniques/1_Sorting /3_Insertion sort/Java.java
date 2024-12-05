@@ -22,7 +22,6 @@ public class Java{
         arr.add(20);
         arr.add(9);
         insertionSort(arr);
-        
     }
 }
 
