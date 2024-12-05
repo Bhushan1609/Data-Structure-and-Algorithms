@@ -1,15 +1,18 @@
-const cin=require("prompt-sync")();
-let v=[43,12,4,566,2,33,78];
-bubbleSort(v,0);
-console.log(v);
-function bubbleSort(v,i){
-    if(i>=v.length)return ;
-    let maxiIndex=0;
-    for(let j=0;j<v.length-i;j++){
-        if(v[j]>v[maxiIndex])maxiIndex=j;
+let arr=[13,46,24,52,20,9];
+recursiveBubbleSort(arr);
+console.log(arr);
+
+function recursion(arr,i){
+    if(i<0)return;
+    for(let j=0;j<i;j++){
+        if(arr[j]>arr[j+1]){
+            let temp=arr[j];
+            arr[j]=arr[j+1];
+            arr[j+1]=temp;
+        }
     }
-    let temp=v[maxiIndex];
-    v[maxiIndex]=v[v.length-i-1];
-    v[v.length-i-1]=temp;
-    bubbleSort(v,i+1)
+    recursion(arr,i-1);
+}
+function recursiveBubbleSort(arr){
+    recursion(arr,arr.length-1);
 }
