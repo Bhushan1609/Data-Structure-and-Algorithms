@@ -119,7 +119,7 @@ void selectionSort(vd<int>&arr){
         FOR(j,i,n){
             if(arr[j] < arr[mini]) mini=j;
         }
-        swap(arr[i] , arr[mini]);
+        swap(arr[i], arr[mini]);
     }
     return print(arr);
 }
