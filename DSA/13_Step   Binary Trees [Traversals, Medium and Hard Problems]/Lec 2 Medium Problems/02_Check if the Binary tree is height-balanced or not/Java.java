@@ -18,7 +18,7 @@ class IntWrapper{
         this.value = value;
     }
 };
-public class J{
+public class Java{
     static void levelOrder(Node root){
         Queue<Node>q=new LinkedList<>();
         q.add(root);
