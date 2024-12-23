@@ -186,12 +186,12 @@ void levelOrder(Node* root){
     }
 }
 
-int pathSum(TreeNode* root,int &ans){
+int pathSum(Node* root,int &ans){
     if(!root) return 0;
     int leftH=max(0,pathSum(root->left,ans));
     int rightH=max(0,pathSum(root->right,ans));
-    ans=max(ans,root->val+leftH+rightH);
-    return root->val+max(leftH,rightH);
+    ans=max(ans,root->data+leftH+rightH);
+    return root->data+max(leftH,rightH);
 }
 
 void solve(){
