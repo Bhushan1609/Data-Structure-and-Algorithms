@@ -186,16 +186,16 @@ void levelOrder(Node* root){
     }
 }
 
-vector<vector<int>> verticalTraversal(TreeNode* root) {
+vector<vector<int>> verticalTraversal(Node* root) {
     vdd<int>answer;
     map<int,map<int,multiset<int>>>nodes;
-    queue<pair<TreeNode*,pair<int,int>>>q;
+    queue<pair<Node*,pair<int,int>>>q;
     q.push({root, {0 , 0}});
     while(!q.empty()){
         int n(len(q));
         FOR(i,n){
             auto temp=q.front();q.pop();
-            nodes[temp.se.fi][temp.se.se].insert(temp.fi->val);
+            nodes[temp.se.fi][temp.se.se].insert(temp.fi->data);
             if(temp.fi->left)q.push({temp.fi->left,{temp.se.fi-1,temp.se.se+1}});
             if(temp.fi->right)q.push({temp.fi->right,{temp.se.fi+1,temp.se.se+1}});
         }
