@@ -131,7 +131,7 @@ public:
     }
 };
 
-Node* RecursiveTreeCreation(Node* root){
+Node* BSTCreation(Node* root){
     if(!root){
         print("Enter Data to Create Root : ");INT(data);
         if(!data) return root;
