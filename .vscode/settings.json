@@ -7,7 +7,7 @@
         "array": "cpp",
         "chrono": "cpp",
         "compare": "cpp",
-        "cstddef": "cpp", 
+        "cstddef": "cpp",
         "type_traits": "cpp",
         "filesystem": "cpp",
         "forward_list": "cpp",
@@ -21,6 +21,7 @@
         "iostream": "cpp",
         "iosfwd": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "ios": "cpp"
     }
 }
