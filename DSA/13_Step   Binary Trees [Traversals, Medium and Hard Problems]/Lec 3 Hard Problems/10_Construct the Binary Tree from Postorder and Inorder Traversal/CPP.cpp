@@ -186,9 +186,9 @@ void levelOrder(Node* root){
     }
 }
 
-TreeNode* makeTree(int pS,int pE,int iS,int iE,vd<int>&postorder,vd<int>&inorder,unordered_map<int,int>&indexMapping){
+Node* makeTree(int pS,int pE,int iS,int iE,vd<int>&postorder,vd<int>&inorder,unordered_map<int,int>&indexMapping){
     if(pS>pE or iS>iE) return NULL;
-    TreeNode* root=new TreeNode(postorder[pE]);
+    Node* root=new TreeNode(postorder[pE]);
     int index=indexMapping[postorder[pE]];
     int remain=index-iS;
     root->left=makeTree(pS,pS+remain-1,iS,index-1,postorder,inorder,indexMapping);
@@ -196,8 +196,7 @@ TreeNode* makeTree(int pS,int pE,int iS,int iE,vd<int>&postorder,vd<int>&inorder
     return root;
 }
 
-TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-    TreeNode* root=NULL;
+Node* buildTree(vector<int>& inorder, vector<int>& postorder) {
     unordered_map<int,int>indexMapping;
     FOR(i,len(inorder))indexMapping[inorder[i]]=i;
     int pS=0 , pE=len(postorder)-1 , iS=0 , iE=len(inorder)-1;
