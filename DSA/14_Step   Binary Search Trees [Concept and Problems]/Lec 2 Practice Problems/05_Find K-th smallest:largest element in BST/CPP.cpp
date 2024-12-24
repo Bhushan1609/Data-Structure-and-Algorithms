@@ -187,41 +187,6 @@ void levelOrder(Node* root){
     }
 }
 
-int giveMinNode(Node* root){
-    int ans=root->data;
-    while(root){
-        ans=min(ans,root->data);
-        root=root->left;
-    }
-    return ans;
-}
-
-void deleteNode(Node* &root,int key){
-    if(!root)return ;
-    if(root->data==key){
-        if(!root->left && !root->right){
-            root=NULL;
-        }else if(root->left && !root->right){
-            Node* newNode=root->left;
-            root=newNode;
-        }else if(!root->left && root->right){
-            Node* newNode=root->right;
-            root=newNode;
-        }else{
-            int ans=giveMinNode(root->right);
-            deleteNode(root,ans);
-            root->data=ans;
-        }
-        return;
-    }
-    if(root->data > key){
-        deleteNode(root->left,key);
-        return;
-    }else{
-        deleteNode(root->right,key);
-    }
-}
-
 void r(Node* root,int k,int &ans,int &cnt){
     if(!root)return;
     r(root->left,k,ans,cnt);
