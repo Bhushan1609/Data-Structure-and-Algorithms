@@ -156,61 +156,65 @@ void printLL(Node* head){
     return print("");
 }
 
-Node* removeHead(Node* head){
-    if(!head)return head;
-    Node* temp=head;
-    head=head->next;
-    delete(temp);
-    return head;
+Node* insertHead(Node* head,int val){
+    if(!head){
+        return new Node(val);
+    }
+    return new Node(val,head);
 }
 
-Node* removeTail(Node* head){
-    if(!head or !head->next)return NULL;
+Node* insertLast(Node* head,int val){
+    if(!head){
+        return new Node(val);
+    }
     Node* temp=head;
-    while(temp->next->next){
+    while(temp->next){
         temp=temp->next;
     }
-    delete(temp->next);
-    temp->next=NULL;
+    temp->next=new Node(val);
     return head;
 }
 
-Node* deleteK(Node* head,int k){
-    if(!head) return head;
-    if(k==1){
-        Node* temp=head;
-        head=head->next;
-        delete(temp);
-        return head;
+Node* insertK(Node* head,int val,int k){
+    if(!head){
+        if(k==1){
+            return new Node(val,head);
+        }else{
+            return NULL;
+        }
     }
+    if(k==1){
+        return new Node(val,head);
+    }
+    Node* temp=head;
     int cnt=0;
-    Node* temp=head,*prev=NULL;
     while(temp){
         cnt+=1;
-        if(cnt==k){
-            prev->next=prev->next->next;
-            delete(temp);
+        if(k==cnt+1){
+            Node* newNode=new Node(val,temp->next);
+            temp->next=newNode;
             return head;
         }
-        prev=temp;
         temp=temp->next;
     }
     return head;
 }
 
 void solve(){
-    // vd<int>vec={1,2,3,4,5,6,7,8,9,10};
-    // Node* head=arrayToLL(vec);
-    // printLL(head);
+    vd<int>vec={1,2,3,4,5,6,7,8,9,10};
+    Node* head=arrayToLL(vec);
+    printLL(head);
 
 
-    // head=removeHead(head);
-    // printLL(head);
-    // head=removeTail(head);
+    // head=insertHead(head,-1);
     // printLL(head);
 
-    // head=deleteK(head,5);
+    // head=insertLast(head,-1);
     // printLL(head);
+
+    // head=insertK(head,val,3);
+    // printLL(head);
+
 }
 
 int main(){
