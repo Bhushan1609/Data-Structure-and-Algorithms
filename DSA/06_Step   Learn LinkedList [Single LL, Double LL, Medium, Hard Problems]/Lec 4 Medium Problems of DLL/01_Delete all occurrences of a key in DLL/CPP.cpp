@@ -59,6 +59,66 @@ void No(bool t=1) {Yes(!t);}
 void yes(bool t=1) {print(t?"yes":"no");}
 void no(bool t=1) {yes(!t);}
 
+#define overload4(a, b, c, d, e, ...) e
+#define overload3(a, b, c, d, ...) d
+#define FOR(...) overload4(__VA_ARGS__, FOR4, FOR3, FOR2, FOR1)(__VA_ARGS__)
+#define FOR_R(...) overload3(__VA_ARGS__, FOR3_R, FOR2_R, FOR1_R)(__VA_ARGS__)
+#define all(x) x.begin(), x.end()
+#define len(x) ll(x.size())
+#define pb push_back
+#define eb emplace_back
+#define mp make_pair
+#define fi first
+#define se second
+#define MIN(v) *min_element(all(v))
+#define MAX(v) *max_element(all(v))
+#define SUM(v) accumulate(all(v),(int)0)
+
+template <class T>
+using vd=vector<T>;
+template <class T>
+using vdd=vector<vd<T>>;
+template <class T>
+using vddd=vector<vdd<T>>;
+template <class T>
+using vdddd=vector<vddd<T>>;
+template <class T>
+using vddddd=vector<vdddd<T>>;
+template <class T>
+using q=queue<T>;
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-const-variable"
+const int mod = 1e9 + 7; 
+vd<pi<int, int>> gridMoves = { {-1, 0}, {0, -1}, {0, 1}, {1, 0}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1} };
+#pragma GCC diagnostic pop
+
+/*MaxHeap*/
+template <class T>
+using pq=priority_queue<T>;
+/*MinHeap*/
+template <class T>
+using pqg=priority_queue<T,vector<T>, greater<T>>;
+
+/*FOR*/
+#define FOR1(a) for(ll _=0;_<ll(a);++_)
+#define FOR2(i,a) for(ll i=0;i<ll(a);++i)
+#define FOR3(i,a,b) for(ll i=a;i<ll(b);++i)
+#define FOR4(i,a,b,c) for (ll i =a;i<ll(b);i+=(c))
+/*FOR_R*/
+#define FOR1_R(a) for (ll i =(a)-1;i>=ll(0);--i)
+#define FOR2_R(i,a) for (ll i=(a)-1;i>=ll(0);--i)
+#define FOR3_R(i,a,b) for(ll i=(b)-1;i>=ll(a);--i)
+
+/*Declare 2d/3d(type,name,size,size1,size2,....)*/
+#define vv(type, name, h, ...) vector<vector<type>> name(h, vector<type>(__VA_ARGS__))
+#define vvv(type, name, h, w, ...) vector<vector<vector<type>>> name(h, vector<vector<type>>(w, vector<type>(__VA_ARGS__))))
+#define vvvv(type, name, a, b, c, ...) vector<vector<vector<vector<type>>>> name( a, vector<vector<vector<type>>>(b, vector<vector<type>>(c, vector<type>(__VA_ARGS__))))
+
+/*Read 1d/2d(type,name,size,size1)*/
+#define VEC(type, name, size) vector<type> name(size); read(name)
+#define VV(type, name, h, w) vector<vector<type>> name(h, vector<type>(w)); read(name)
+
 class Node{
 
 public:
