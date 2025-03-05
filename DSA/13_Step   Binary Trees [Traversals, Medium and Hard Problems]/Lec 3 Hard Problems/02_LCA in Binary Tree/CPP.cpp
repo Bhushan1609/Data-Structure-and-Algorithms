@@ -80,7 +80,7 @@ public:
         return recursion(this);
     }
 };
-TreeNode* lowestCommonAncestor(TreeNode<int>* root,TreeNode<int>*p,TreeNode<int>* q) {
+TreeNode<int>* lowestCommonAncestor(TreeNode<int>* root,TreeNode<int>*p,TreeNode<int>* q) {
     if(!root or root==p or root==q) 
         return root;
     TreeNode<int>* leftAns=lowestCommonAncestor(root->left,p,q);
