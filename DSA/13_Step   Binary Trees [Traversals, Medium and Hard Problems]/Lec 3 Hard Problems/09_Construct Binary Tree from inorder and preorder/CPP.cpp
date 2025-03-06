@@ -101,7 +101,7 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    vector<int>inorder={17,23,10,19,42,11,},preorder={19,23,17,10,42,11,};
+    vector<int>inorder={17,23,10,19,42,11},preorder={19,23,17,10,42,11};
     TreeNode<int>*root=makeTree(inorder,preorder);
     root->LEVEL_ORDER();
     return 0;
