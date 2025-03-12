@@ -1,35 +1,34 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class stImple{
+class MyStack{
+private:
+    int arr[1000];
+    int top;
 public:
-    int stack[10],interator=-1;
-    stImple(){
-        for(int i=0;i<10;i++)
-            stack[i]=0;
+    MyStack(){
+        top=-1;
     }
-    void push(int val){
-        if(interator+1>=10){
-            cout<<"Stack Size Exceeded !!!"<<endl;
-            return ;
+    int pop(){
+        if(top!=-1){
+            return arr[top--];
         }
-        interator+=1;
-        stack[interator]=val;
+        return top;
     }
-    int top(){
-        if(interator!=-1)
-            return stack[interator];
-        cout<<"Stack is Empty : "<<endl;
-        return -1;
-    }
-    void pop(){
-        if(interator!=-1)
-            interator-=1;
+    void push(int x){
+        if(top<1000){
+           top+=1;
+           arr[top]=x;
+        }
     }
     int size(){
-        if(interator==-1)
-            return 0;
-        return interator+1;
+        return top+1;
+    }
+    int Top(){
+        if(top!=-1){
+            return arr[top];
+        }
+        return -1;
     }
 };
 
@@ -38,35 +37,18 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    stImple myStack=stImple();
-    cout<<myStack.top()<<endl;
+    MyStack myStack=MyStack();
+    cout<<myStack.Top()<<endl;
     myStack.push(12);
     cout<<myStack.size()<<endl;
     myStack.push(13);
     myStack.push(14);
     myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    myStack.push(15);
-    cout<<myStack.top()<<endl;
+    cout<<myStack.Top()<<endl;
     myStack.pop();
     myStack.pop();
+    cout<<myStack.Top()<<endl;
     myStack.pop();
-    myStack.pop();
-    myStack.pop();
-    myStack.pop();
-    myStack.pop();
-    myStack.pop();
-    myStack.pop();
-    cout<<myStack.top()<<endl;
-    myStack.pop();
-    cout<<myStack.top()<<endl;
+    cout<<myStack.Top()<<endl;
     return 0;
 }
