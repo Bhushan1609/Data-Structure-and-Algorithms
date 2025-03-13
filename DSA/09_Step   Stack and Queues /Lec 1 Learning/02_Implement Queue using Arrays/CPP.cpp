@@ -3,44 +3,48 @@ using namespace std;
 
 class MyQueue{
 private:
-    int front;
-    int rear;
-    int arr[1000];
+    int Size=100;
+    int arr[100];
+    int curr_size;
+    int start;
+    int end;
 public:
     MyQueue(){
-        front=rear=-1;
+        curr_size=0;
+        start=-1;
+        end=-1;
     }
     void push(int x){
-        if(rear-front+1==1000){
-            cout<<"Array Size Exceeded"<<endl;
+        if(curr_size==Size){
+            cout<<"Queue Size Exceeded"<<endl;
             return ;
+        }else if(curr_size==0){
+            start=end=0;
+        }else{
+            end=(end+1)%Size;
         }
-        if(front==-1 && rear==-1)
-            front=rear=0;
-        else
-            rear=(rear+1)%1000;
-        arr[rear]=x;
+        ++curr_size;
+        arr[end]=x;
+        return;
     }
     void pop(){
-        if(front==-1 && rear==-1)
+        if(!curr_size){
             return ;
-        if(rear==front){
-            rear=front=-1;
-            return;
+        }else if(curr_size==1){
+            start=end=-1;
+        }else{
+            start=(start+1)%Size;
         }
-        front=(front+1)%1000;
-        return ;
+        --curr_size;
+        return;
     }
     int top(){
-        if(front==-1 && rear==-1)
+        if(!curr_size)
             return -1;
-        return arr[front];
+        return arr[start]; 
     }
-    
     int size(){
-        if(front==-1 && rear==-1)
-            return -1;
-        return rear-front+1;
+        return curr_size;
     }
 };
 
@@ -49,19 +53,12 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    MyQueue myQueue=MyQueue();
-
-    cout<<myQueue.top()<<endl;
-    myQueue.push(2);
-    myQueue.push(3);
-
-    myQueue.pop();
-
-    cout<<myQueue.top()<<endl;
-
-    myQueue.pop();
-
-    cout<<myQueue.top()<<endl;
-
+    MyQueue q=MyQueue();
+    q.push(10);
+    q.push(10);
+    cout<<q.size()<<endl;
+    q.pop();
+    cout<<q.size()<<endl;
+    cout<<q.top()<<endl;
     return 0;
-}
+}   
