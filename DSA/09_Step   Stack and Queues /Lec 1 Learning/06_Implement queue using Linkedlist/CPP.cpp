@@ -4,7 +4,7 @@ using namespace std;
 class LLNode{
 public:
     int data;
-    LLNode *next;
+    LLNode* next;
     LLNode(int data){
         this->data=data;
         next=NULL;
@@ -13,44 +13,41 @@ public:
 
 class MyQueue{
 private:
-    int size;
-    LLNode* front;
-    LLNode* rear;
+    int Size;
+    LLNode* start;
+    LLNode* end;
 public:
     MyQueue(){
-        size=0;
-        front=NULL;
-        rear=NULL;
+        start=end=NULL;
+        Size=0;
     }
     void push(int x){
-        if(!front && !rear){
-            front=rear=new LLNode(x);
-            ++size;
+        if(!start){
+            start=end=new LLNode(x);
             return;
         }
-        rear->next=new LLNode(x);
-        rear=rear->next;
-        ++size;
+        end->next=new LLNode(x);
+        end=end->next;
+        ++Size;
     }
     void pop(){
-        if(!front && !rear)
-            return ;
-        LLNode* node=front;
-        if(front && front==rear)
-            front=rear=NULL;
-        else
-            front=front->next;
-        delete(node);
-        --size;
-        return ;
-    }
-    int Size(){
-        return size;
+        if(!start)
+            return;
+        LLNode* node=start;
+        start=start->next;
+        if(!start)
+            end=NULL;
+        delete node;
+        --Size;
+        return;
     }
     int top(){
-        if(!front)
+        if(!start)
             return -1;
-        return front->data;
+        return start->data;
+    }
+    int size(){
+        return Size;
     }
 };
 
@@ -59,13 +56,5 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    MyQueue q=MyQueue();
-    q.push(2);
-    q.push(23);
-    q.push(33);    
-    cout<<q.Size()<<endl;
-    cout<<q.top()<<endl;
-    q.pop();
-    cout<<q.top()<<endl;
     return 0;
-}
+}   
