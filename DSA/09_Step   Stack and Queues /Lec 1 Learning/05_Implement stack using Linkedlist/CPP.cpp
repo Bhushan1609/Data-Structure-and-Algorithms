@@ -4,7 +4,7 @@ using namespace std;
 class LLNode{
 public:
     int data;
-    LLNode *next;
+    LLNode* next;
     LLNode(int data){
         this->data=data;
         next=NULL;
@@ -13,33 +13,35 @@ public:
 
 class MyStack{
 private:
-    int size;
+    int Size;
     LLNode* top;
 public:
     MyStack(){
-        size=0;
         top=NULL;
+        Size=0;
     }
     void push(int x){
-        LLNode* temp=new LLNode(x);
-        temp->next=top;
-        top=temp;
-        ++size;
+        LLNode* node=new LLNode(x);
+        node->next=top;
+        top=node;
+        ++Size;
     }
     void pop(){
         if(!top)
-            return ;
+            return;
+        LLNode* node=top;
         top=top->next;
-        --size;
+        delete node;
+        --Size;
         return;
-    }
-    int Size(){
-        return size;
     }
     int Top(){
         if(!top)
             return -1;
         return top->data;
+    }
+    int size(){
+        return Size;
     }
 };
 
@@ -48,11 +50,14 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    MyStack myStack=MyStack();
-    myStack.push(1);
-    myStack.push(2);
-    cout<<myStack.Top()<<endl;
-    myStack.pop();
-    cout<<myStack.Size()<<endl;
+    MyStack st=MyStack();
+    st.push(10);
+    cout<<st.size()<<endl;
+    st.pop();
+    cout<<st.size()<<endl;
+    st.push(12);
+    cout<<st.Top()<<endl;
+    st.pop();
+    cout<<st.Top()<<endl;
     return 0;
-}
+}   
