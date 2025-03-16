@@ -9,7 +9,7 @@ int priority(char ch){
     if(ch=='+' or ch=='-')
         return 1;
     return -1;
-}
+}        
 
 string infixToPrefix(string s) {
     reverse(s.begin(),s.end());
