@@ -62,7 +62,7 @@ int callOptimal(vector<int>& height) {
 }
 
 int main(){
-    #ifndef ONLING_JUDGE
+    #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
