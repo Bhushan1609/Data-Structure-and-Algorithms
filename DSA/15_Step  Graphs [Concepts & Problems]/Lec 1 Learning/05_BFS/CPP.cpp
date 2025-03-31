@@ -4,45 +4,42 @@ using namespace std;
 template<class T>
 class Graph{
 public:
-    T nodes;
-    T edges;
+    T nodes,edges;
     vector<pair<T,T>>*adjList;
     Graph(T n,T e){
         this->nodes=n+1;
         this->edges=e;
-        adjList=new vector<pair<T,T>>[nodes+1];
+        adjList=new vector<pair<T,T>>[this->nodes];
     }
-    void addEdge(T u,T v,T wt=0,T dir=0){
-        adjList[u].push_back({v,wt});
-        if(!dir)
-            adjList[v].push_back({u,wt});
+    void addEdge(T u,T v,T weight=0,T directed=0){
+        adjList[u].push_back({v,weight});
+        if(!directed)
+            adjList[v].push_back({u,weight});
     }
     void printGraph(){
-        for(T i=0;i<this->nodes;i++){
-            cout<<i<<":";
-            for(auto &j:adjList[i])
-                cout<<"{"<<j.first<<","<<j.second<<"},";
+        for(T node=0;node<this->nodes;node++){
+            cout<<"{"<<node<<"} : ";
+            for(auto &[child,weight]:adjList[node])
+                cout<<"{"<<child<<","<<weight<<"},";
             cout<<endl;
         }
     }
 };
 
-void BFS(Graph<int>&g,int src){
-    vector<int>visited(g.nodes,0);
+void BFS(Graph<int>&g,int &sourceNode){
+    vector<int>visited(g.nodes);
     queue<int>q;
-    q.push(src);
-    ++visited[src];
+    q.push(sourceNode);
+    ++visited[sourceNode];
     while(!q.empty()){
         int n=q.size();
         for(int i=0;i<n;i++){
-            int temp=q.front();
+            int topNode=q.front();
             q.pop();
-            cout<<temp<<" ";
-            for(auto &j:g.adjList[temp])
-                if(!visited[j.first]){
-                    q.push(j.first);
-                    ++visited[j.first];
-                }
+            cout<<topNode<<" ";
+            for(auto &[child,weight]:g.adjList[topNode])
+                if(!visited[child])
+                    q.push(child),++visited[child];
         }
     }
     return ;
@@ -53,20 +50,18 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    int nodes;
-    int edges;
-    int src=1;
-    cout<<"Enter Nodes & Edges respectively : "<<endl;
-    cin>>nodes>>edges;
-    cout<<"Enter Source Node to start : "<<endl;
-    cin>>src;
+
+    int nodes,edges,sourceNode=1;
+    cout<<"Enter Nodes & Edges & Source Node Respectively : "<<endl;
+    cin>>nodes>>edges>>sourceNode;
+
     Graph<int>g(nodes,edges);
     for(int i=0;i<edges;i++){
         int u,v;
-        cout<<"Enter Edge in Between : "<<endl;
+        cout<<"Enter Edge In Between : "<<endl;
         cin>>u>>v;
         g.addEdge(u,v);
     }
-    BFS(g,src);
+    BFS(g,sourceNode);
     return 0;
 }
