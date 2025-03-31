@@ -1,13 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<vector<int>> createGraphMat(){
-    int n,m;
-    cout<<"Enter numbers of nodes & edges respectively : "<<endl;cin>>n>>m;
-    vector<vector<int>>graph(n+1,vector<int>(n+1,0));
-    for(int i=0;i<m;i++){
+vector<vector<int>>createGraphMatrix(int &nodes,int &edges){
+    vector<vector<int>>graph(nodes+1,vector<int>(nodes+1));
+    for(int i=0;i<edges;i++){
         int u,v;
-        cout<<"Enter Edge in between : "<<endl;
+        cout<<"Enter Edge In Between : "<<endl;
         cin>>u>>v;
         ++graph[u][v];
         ++graph[v][u];
@@ -15,46 +13,31 @@ vector<vector<int>> createGraphMat(){
     return graph;
 }
 
-void printGraphMat(vector<vector<int>>&graph){
-    for(auto i:graph){
-        for(auto j:i)
-            cout<<j<<" ";
-        cout<<endl;
-    }
-    return;
-}
-
 template<class T>
 class Graph{
 public:
-    T nodes;
-    T edges;
+    T nodes,edges;
     vector<pair<T,T>>*adjList;
     Graph(T n,T e){
         this->nodes=n+1;
         this->edges=e;
-        adjList=new vector<pair<T,T>>[nodes+1];
-        for(T i=0;i<this->edges;i++){
-            T u,v;
-            cout<<"Enter Edge in Between : "<<endl;
-            cin>>u>>v;
-            addEdge(u,v);
-        }
+        adjList=new vector<pair<T,T>>[this->nodes];
     }
-    void addEdge(T u,T v,T wt=0,T dir=0){
-        adjList[u].push_back({v,wt});
-        if(!dir)
-            adjList[v].push_back({u,wt});
+    void addEdge(T u,T v,T weight=0,T directed=0){
+        adjList[u].push_back({v,weight});
+        if(!directed)
+            adjList[v].push_back({u,weight});
     }
     void printGraph(){
-        for(T i=0;i<this->nodes;i++){
-            cout<<i<<":";
-            for(auto &j:adjList[i])
-                cout<<"{"<<j.first<<","<<j.second<<"},";
+        for(T node=0;node<this->nodes;node++){
+            cout<<"{"<<node<<"} : ";
+            for(auto &[child,weight]:adjList[node])
+                cout<<"{"<<child<<","<<weight<<"},";
             cout<<endl;
         }
     }
 };
+
 
 int main(){
     #ifndef ONLINE_JUDGE
@@ -62,10 +45,24 @@ int main(){
         freopen("output.txt","w",stdout);
     #endif
 
-    vector<vector<int>>graphMat=createGraphMat();
-    printGraphMat(graphMat);
+    int nodes,edges;
+    cout<<"Enter Nodes & Edges Respectively : "<<endl;
+    cin>>nodes>>edges;
 
-    Graph<int> g(5,6);
+    vector<vector<int>>graphMatrix=createGraphMatrix(nodes,edges);
+    for(auto &i:graphMatrix){
+        for(auto &j:i)
+            cout<<j<<" ";
+        cout<<endl;
+    }
+
+    Graph<int>g(nodes,edges);
+    for(int i=0;i<edges;i++){
+        int u,v;
+        cout<<"Enter Edge In Between : "<<endl;
+        cin>>u>>v;
+        g.addEdge(u,v);
+    }
     g.printGraph();
     return 0;
 }
