@@ -4,42 +4,41 @@ using namespace std;
 template<class T>
 class Graph{
 public:
-    T nodes;
-    T edges;
+    T nodes,edges;
     vector<pair<T,T>>*adjList;
     Graph(T n,T e){
         this->nodes=n+1;
         this->edges=e;
-        adjList=new vector<pair<T,T>>[nodes+1];
+        adjList=new vector<pair<T,T>>[this->nodes];
     }
-    void addEdge(T u,T v,T wt=0,T dir=0){
-        adjList[u].push_back({v,wt});
-        if(!dir)
-            adjList[v].push_back({u,wt});
+    void addEdge(T u,T v,T weight=0,T directed=0){
+        adjList[u].push_back({v,weight});
+        if(!directed)
+            adjList[v].push_back({u,weight});
     }
     void printGraph(){
-        for(T i=0;i<this->nodes;i++){
-            cout<<i<<":";
-            for(auto &j:adjList[i])
-                cout<<"{"<<j.first<<","<<j.second<<"},";
+        for(T node=0;node<this->nodes;node++){
+            cout<<"{"<<node<<"} : ";
+            for(auto &[child,weight]:adjList[node])
+                cout<<"{"<<child<<","<<weight<<"},";
             cout<<endl;
         }
     }
 };
 
-void dfsRecursion(int node,vector<int>&visited,Graph<int>&g){
-    ++visited[node];
+void dfsRecursion(int &node,vector<int>&visited,Graph<int>&g){
     cout<<node<<" ";
-    for(auto &j:g.adjList[node])
-        if(!visited[j.first])
-            dfsRecursion(j.first,visited,g);
+    ++visited[node];
+    for(auto &[child,weight]:g.adjList[node])
+        if(!visited[child])
+            dfsRecursion(child,visited,g);
     return ;
 }
 
-void DFS(Graph<int>&g,int src){
-    int n=g.nodes;
-    vector<int>visited(n,0);
-    dfsRecursion(src,visited,g);
+void DFS(Graph<int>&g,int &sourceNode){
+    vector<int>visited(g.nodes);
+    dfsRecursion(sourceNode,visited,g);
+    return ;
 }
 
 int main(){
@@ -47,20 +46,18 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    int nodes;
-    int edges;
-    int src=1;
-    cout<<"Enter Nodes & Edges respectively : "<<endl;
-    cin>>nodes>>edges;
-    cout<<"Enter Source Node to start : "<<endl;
-    cin>>src;
+
+    int nodes,edges,sourceNode=1;
+    cout<<"Enter Nodes & Edges & Source Node Respectively : "<<endl;
+    cin>>nodes>>edges>>sourceNode;
+
     Graph<int>g(nodes,edges);
     for(int i=0;i<edges;i++){
         int u,v;
-        cout<<"Enter Edge in Between : "<<endl;
+        cout<<"Enter Edge In Between : "<<endl;
         cin>>u>>v;
         g.addEdge(u,v);
     }
-    DFS(g,src);
+    DFS(g,sourceNode);
     return 0;
 }
