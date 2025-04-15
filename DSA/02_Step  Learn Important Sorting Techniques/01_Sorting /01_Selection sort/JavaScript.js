@@ -4,7 +4,7 @@ let currentLine=0;
 let output=[];
 
 function readline() {
-    return inputString[currentLine++];
+    return inputString[currentLine++] ;
 }
 
 function selectionSort(arr){
