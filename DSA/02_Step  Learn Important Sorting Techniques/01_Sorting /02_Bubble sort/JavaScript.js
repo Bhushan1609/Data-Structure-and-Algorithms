@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs=require('fs');
 let inputString=fs.readFileSync('input.txt','utf-8').split('\n').filter(line=>line.trim()!=='');
 let currentLine=0;
 let output=[];
