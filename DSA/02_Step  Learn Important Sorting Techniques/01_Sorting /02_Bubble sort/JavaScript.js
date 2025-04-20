@@ -4,19 +4,23 @@ let currentLine=0;
 let output=[];
 
 function readline() {
-    return inputString[currentLine++];
+    return inputString[currentLine++] ;
 }
 
 function bubbleSort(arr){
 	let n=arr.length;
-	for(let j=n-1;j>=0;j--){
-		for(let i=1;i<=j;i++){
-			if(arr[i]<arr[i-1]){
-				let temp=arr[i];
-				arr[i]=arr[i-1];
-				arr[i-1]=temp;
+	for(let i=n-1;i>=0;i--){
+		let swapHappens=false;
+		for(let j=0;j<=i-1;j++){
+			if(arr[j]>arr[j+1]){
+				let temp=arr[j];
+				arr[j]=arr[j+1];
+				arr[j+1]=temp;
+				swapHappens|=true;
 			}
 		}
+		if(!swapHappens)
+			break;
 	}
 	return ;
 }
@@ -28,14 +32,16 @@ function main(){
 	for(let i in arr)
 		oneline+=arr[i]+" ";
 	output.push(oneline);
-	output.push("After Sorting : ");
+
 	bubbleSort(arr);
+
+	output.push("After Sorting : ");
 	oneline="";
 	for(let i in arr)
 		oneline+=arr[i]+" ";
 	output.push(oneline);
-    fs.writeFileSync('output.txt', output.join('\n'));
+    fs.writeFileSync('output.txt',output.join('\n'));
 }
 
 main();
-//Problem Link : https://www.geeksforgeeks.org/problems/bubble-sort/1
+//Problem Link : http://geeksforgeeks.org/problems/bubble-sort/1

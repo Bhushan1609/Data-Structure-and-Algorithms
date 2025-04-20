@@ -1,40 +1,45 @@
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.lang.*;
-import java.util.Vector;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Java{
-    static void bubbleSort(Vector<Integer>arr){
-        int n=arr.size();
-        for(int j=n-1;j>=0;j--){
-            for(int i=1;i<=j;i++){
-                if(arr.get(i)<arr.get(i-1)){
-                    int temp=arr.get(i);
-                    arr.set(i,arr.get(i-1));
-                    arr.set(i-1,temp);
-                }
-            }
+
+	static void bubbleSort(List<Integer>arr){
+		int n=arr.size();
+        for(int i=n-1;i>=0;i--){
+        	boolean swapHappens=false;
+        	for(int j=0;j<=i-1;j++){
+        		if(arr.get(j)>arr.get(j+1)){
+        			int temp=arr.get(j);
+        			arr.set(j,arr.get(j+1));
+        			arr.set(j+1,temp);
+        			swapHappens|=true;
+        		}
+        	}
+        	if(!swapHappens)
+        		break;
         }
         return ;
-    }
+	}
 
-    public static void main(String[] args) throws FileNotFoundException {
-        File f = new File("output.txt");
-        try(Scanner ip = new Scanner(new File("input.txt"));
-            PrintWriter op = new PrintWriter(f);){
-            Vector<Integer>arr=new Vector<>(Arrays.asList(13,46,24,52,20,9));
-            op.println("Before Sorting : ");
-            for(int i=0;i<arr.size();i++)
-                op.print(arr.get(i)+" ");
-            op.println();
-            bubbleSort(arr);
-            op.println("Before Sorting : ");
-            for(int i=0;i<arr.size();i++)
-                op.print(arr.get(i)+" ");
-        }
-    }
+	public static void main(String args[]) throws FileNotFoundException{
+		try(
+			Scanner in=new Scanner(new File("input.txt"));
+            PrintWriter out=new PrintWriter("output.txt")
+		){
+			List<Integer>arr=new ArrayList<>(Arrays.asList(13,46,24,52,20,9));
+			out.println("Before Sorting : ");
+			for(int i:arr)
+				out.print(i+" ");
+			out.println();
+
+			bubbleSort(arr);
+
+			out.println("After Sorting : ");
+			for(int i:arr)
+				out.print(i+" ");
+			out.println();
+		}
+	}
+
 }
-//Problem Link : https://www.geeksforgeeks.org/problems/bubble-sort/1
+//Problem Link : http://geeksforgeeks.org/problems/bubble-sort/1
