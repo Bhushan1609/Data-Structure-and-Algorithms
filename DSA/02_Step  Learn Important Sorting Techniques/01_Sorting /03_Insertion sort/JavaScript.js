@@ -4,7 +4,7 @@ let currentLine=0;
 let output=[];
 
 function readline() {
-    return inputString[currentLine++];
+    return inputString[currentLine++] ;
 }
 
 function insertionSort(arr){
@@ -28,14 +28,16 @@ function main(){
 	for(let i in arr)
 		oneline+=arr[i]+" ";
 	output.push(oneline);
-	output.push("After Sorting : ");
+
 	insertionSort(arr);
+
+	output.push("After Sorting : ");
 	oneline="";
 	for(let i in arr)
 		oneline+=arr[i]+" ";
 	output.push(oneline);
-    fs.writeFileSync('output.txt', output.join('\n'));
+    fs.writeFileSync('output.txt',output.join('\n'));
 }
 
 main();
-// https://www.geeksforgeeks.org/problems/insertion-sort/1
+//Problem Link : https://www.geeksforgeeks.org/problems/insertion-sort/1
