@@ -5,12 +5,13 @@ void selectionSort(vector<int>&arr){
     int n=arr.size();
     for(int i=0;i<n;i++){
         int minIndex=i;
-        int minValue=arr[i];
-        for(int j=i+1;j<n;j++)
-            if(minValue>arr[j])
-                minIndex=j,minValue=arr[j];
+        for(int j=i+1;j<n;j++){
+            if(arr[minIndex]>arr[j])
+                minIndex=j;
+        }
         swap(arr[i],arr[minIndex]);
     }
+    return ;
 }
 
 int main(){
@@ -32,5 +33,5 @@ int main(){
         cout<<i<<" ";
     cout<<endl;
     return 0;
-}
+} 
 //Problem Link : https://www.geeksforgeeks.org/problems/selection-sort/1

@@ -7,19 +7,24 @@ function readline() {
     return inputString[currentLine++] ;
 }
 
+function swap(i,j,arr){
+	let temp=arr[i];
+	arr[i]=arr[j];
+	arr[j]=temp;
+	return ;
+}
+
 function selectionSort(arr){
 	let n=arr.length;
 	for(let i=0;i<n;i++){
 		let minIndex=i;
-		let minValue=arr[i];
-		for(let j=i+1;j<n;j++)
-			if(minValue>arr[j])
-				minValue=arr[j],minIndex=j;
-		let temp=arr[i];
-		arr[i]=arr[minIndex];
-		arr[minIndex]=temp;
+		for(let j=i+1;j<n;j++){
+			if(arr[minIndex]>arr[j]){
+				minIndex=j;
+			}
+		}
+		swap(i,minIndex,arr);
 	}
-	return ;
 }
 
 function main(){
@@ -37,7 +42,7 @@ function main(){
 	for(let i in arr)
 		oneline+=arr[i]+" ";
 	output.push(oneline);
-    fs.writeFileSync('output.txt',output.join('\n'));
+	fs.writeFileSync('output.txt',output.join('\n'));
 }
 
 main();
