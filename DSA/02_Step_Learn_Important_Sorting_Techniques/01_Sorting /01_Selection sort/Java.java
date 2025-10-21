@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Java{
+	
 	static void swap(int i,int j,List<Integer>arr){
 		int temp=arr.get(i);
 		arr.set(i,arr.get(j));
