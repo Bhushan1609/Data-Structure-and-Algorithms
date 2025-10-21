@@ -3,26 +3,26 @@ let inputString=fs.readFileSync('input.txt','utf-8').split('\n').filter(line=>li
 let currentLine=0;
 let output=[];
 
-function readline() {
-    return inputString[currentLine++] ;
+function swap(i,j,arr){
+	let temp=arr[i];
+	arr[i]=arr[j];
+	arr[j]=temp;
+	return ;
 }
 
 function bubbleSort(arr){
 	let n=arr.length;
-	for(let i=n-1;i>=0;i--){
+	for(let i=n-1;i>0;i--){
 		let swapHappens=false;
-		for(let j=0;j<=i-1;j++){
+		for(let j=0;j<i;j++){
 			if(arr[j]>arr[j+1]){
-				let temp=arr[j];
-				arr[j]=arr[j+1];
-				arr[j+1]=temp;
-				swapHappens|=true;
+				swapHappens |= true;
+				swap(j,j+1,arr);
 			}
 		}
 		if(!swapHappens)
-			break;
+			break;//Array is already Sorted
 	}
-	return ;
 }
 
 function main(){
@@ -40,7 +40,7 @@ function main(){
 	for(let i in arr)
 		oneline+=arr[i]+" ";
 	output.push(oneline);
-    fs.writeFileSync('output.txt',output.join('\n'));
+	fs.writeFileSync('output.txt',output.join('\n'));
 }
 
 main();

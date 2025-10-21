@@ -3,18 +3,16 @@ using namespace std;
 
 void bubbleSort(vector<int>&arr){
     int n=arr.size();
-    for(int i=n-1;i>=0;i--){
+    for(int i=n-1;i>0;i--){
         bool swapHappens=false;
-        for(int j=0;j<=i-1;j++){
-            if(arr[j]>arr[j+1]){
-                swap(arr[j],arr[j+1]);
-                swapHappens|=true;
-            }
+        for(int j=0;j<i;j++){
+            if(arr[j]>arr[j+1])
+                swapHappens |= true , swap(arr[j],arr[j+1]);
         }
         if(!swapHappens)
-            break;//bcoz already sorted
+            break;//Array is already Sorted
     }
-    return;
+    return ;
 }
 
 int main(){
@@ -22,7 +20,7 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-
+    
     vector<int>arr={13,46,24,52,20,9};
     cout<<"Before Sorting : "<<endl;
     for(auto &i:arr)
