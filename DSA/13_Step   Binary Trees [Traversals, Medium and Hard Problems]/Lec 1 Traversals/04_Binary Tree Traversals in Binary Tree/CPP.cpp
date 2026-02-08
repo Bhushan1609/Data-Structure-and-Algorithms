@@ -1,28 +1,114 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-template<class T> 
+template<class T>
 class TreeNode{
 public:
     T data;
-    TreeNode *left , *right;
+    TreeNode *left, *right;
+
     TreeNode(T data){
         this->data=data;
         this->left=NULL;
         this->right=NULL;
     }
-    TreeNode(T data , TreeNode* left, TreeNode* right){
+
+    TreeNode(T data,TreeNode* left,TreeNode* right){
         this->data=data;
         this->left=left;
         this->right=right;
     }
+
     void LEVEL_ORDER(){
-        cout<<"Level Order : "<<endl;
+        cout<<"Level-Order Traversal : "<<endl;
+
+        TreeNode* root=this;
         queue<TreeNode*>q;
-        q.push(this);
+        q.push(root);
         while(!q.empty()){
-            int q_size=q.size();
-            for(int i=0;i<q_size;i++){
+            int qsize=q.size();
+            for(int i=0;i<qsize;i++){
+                TreeNode* temp=q.front();q.pop();
+                cout<<temp->data<<" ";
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }cout<<endl;
+        }
+        return ;
+    }
+
+    static TreeNode* CREATE_ITERATIVE(){
+        TreeNode* root=NULL;
+        T rootdata;
+        cout<<"Enter data for the root : "<<endl;cin>>rootdata;
+        root=new TreeNode(rootdata);
+        
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty()){
+            int qsize=q.size();
+            for(int i=0;i<qsize;i++){
+                TreeNode* temp=q.front();q.pop();
+                T leftrootdata,rightrootdata;
+                cout<<"Enter left and right data for the "<<temp->data<<" : "<<endl;cin>>leftrootdata>>rightrootdata;
+                if(leftrootdata!=0){
+                    temp->left=new TreeNode(leftrootdata);
+                    q.push(temp->left);
+                }
+                if(rightrootdata){
+                    temp->right=new TreeNode(rightrootdata);
+                    q.push(temp->right);
+                }
+            }
+        }
+        return root;
+    }
+
+    static TreeNode* CREATE_RECURSION(){
+        function<TreeNode*(TreeNode*)>recursion=[&](TreeNode* root){
+            if(!root){
+                cout<<"Enter data for root : "<<endl;
+                T rootdata;cin>>rootdata;
+                if(rootdata==0)
+                    return root;
+                root=new TreeNode(rootdata);
+            }
+            cout<<"Enter data for the left of the "<<root->data<<" : "<<endl;
+            root->left=recursion(root->left);
+            cout<<"Enter data for the right of the "<<root->data<<" : "<<endl;
+            root->right=recursion(root->right);
+            return root;
+        };
+        TreeNode* root=NULL;
+        return recursion(root);
+    }
+
+    void DFS(){
+        function<void(TreeNode*)>dfs=[&](TreeNode* root){
+            if(!root)
+                return;
+            cout<<root->data<<" ";
+            dfs(root->left);
+            dfs(root->right);
+        };
+        cout<<"DFS Traversal is : ";
+        dfs(this);
+        cout<<endl;
+        return ;
+    }
+
+    void BFS(){
+        cout<<"BFS Traversal is : ";
+        TreeNode* root=this;
+        if(!root)
+            return ;
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty()){
+            int qsize=q.size();
+            for(int i=0;i<qsize;i++){
                 TreeNode* temp=q.front();q.pop();
                 cout<<temp->data<<" ";
                 if(temp->left)
@@ -30,89 +116,21 @@ public:
                 if(temp->right)
                     q.push(temp->right);
             }
-            cout<<endl;
         }
         return ;
     }
-    TreeNode* CREATE_ITERATIVE(){
-        TreeNode* root=this;
-        if(!root){
-            cout<<"Enter data for root "<<endl;
-            T rootNode;cin>>rootNode;
-            root=new TreeNode(rootNode);
-        }
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            int q_size=q.size();
-            for(int i=0;i<q_size;i++){
-                TreeNode* temp=q.front();q.pop();
-                cout<<"Enter data for left & right node of the "<<temp->data<<endl;
-                T leftNode,rightNode;
-                cin>>leftNode>>rightNode;
-                if(leftNode){
-                    temp->left=new TreeNode(leftNode);
-                    q.push(temp->left);
-                }
-                if(rightNode){
-                    temp->right=new TreeNode(rightNode);
-                    q.push(temp->right);
-                }
-            }
-        }
-        return root;
-    }
-    TreeNode* CREATE_RECURSIVE(){
-        function<TreeNode*(TreeNode*)>recursion=[&](TreeNode* root){
-            if(!root){
-                cout<<"Enter data for root "<<endl;    
-                T rootNode;cin>>rootNode;
-                if(!rootNode)
-                    return root;
-                root=new TreeNode(rootNode);
-            }
-            cout<<"Enter data for left node of the "<<root->data<<endl;
-            root->left=recursion(root->left);
-            cout<<"Enter data for right node of the "<<root->data<<endl;
-            root->right=recursion(root->right);
-            return root;
-        };
-        return recursion(this);
-    }
 };
-
-void BFS(TreeNode<int>*root){
-    queue<TreeNode<int>*>q;
-    q.push(root);
-    while(!q.empty()){
-        int q_size=q.size();
-        for(int i=0;i<q_size;i++){
-            TreeNode<int>* temp=q.front();q.pop();
-            cout<<temp->data<<" ";
-            if(temp->left)
-                q.push(temp->left);
-            if(temp->right)
-                q.push(temp->right);
-        }
-        cout<<endl;
-    }
-}
-
-void DFS(TreeNode<int>*root){
-    if(!root)return;
-    cout<<root->data<<" ";
-    DFS(root->left);
-    DFS(root->right);
-}
-
 int main(){
     #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-    TreeNode<int>*root=NULL;
-    root=root->CREATE_ITERATIVE();
-    BFS(root);
-    DFS(root);
+    TreeNode<int>*root=TreeNode<int>::CREATE_ITERATIVE();
+    // TreeNode<int>*root=TreeNode<int>::CREATE_RECURSION();
+    // root->LEVEL_ORDER();
+    root->DFS();
+    root->BFS();
     return 0;
 }
+// Input for iterative creation 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0 
+// Input for recursive creation 1 2 4 0 0 5 0 0 3 6 0 0 7 0 0
