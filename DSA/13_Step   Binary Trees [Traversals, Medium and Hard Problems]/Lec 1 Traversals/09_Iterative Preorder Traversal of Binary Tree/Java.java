@@ -1,156 +1,124 @@
+import java.io.*;
 import java.util.*;
-class Node{
-    public
-    int data;
-    Node left;
-    Node right;
-    Node(int d){
-        this.data=d;
-        this.left=null;
-        this.right=null;
-    }
-};
 
-public class J{
-    static void levelOrder(Node root){
-        Queue<Node>q=new LinkedList<>();
-        q.add(root);
-        while(!q.isEmpty()){
-            int n=q.size();
-            for(int i=0;i<n;i++){
-                Node temp=q.poll();
-                System.out.print(temp.data+" ");
-                if(temp.left != null)q.add(temp.left);
-                if(temp.right != null)q.add(temp.right);
+public class Java{
+
+	static class TreeNode<T>{
+		T data;
+		TreeNode left,right;
+
+		TreeNode(T data){
+			this.data=data;
+			this.left=null;
+			this.right=null;
+		}
+
+		TreeNode(T data,TreeNode left,TreeNode right){
+			this.data=data;
+			this.left=left;
+			this.right=right;
+		}
+
+		void LEVEL_ORDER(PrintWriter out){
+			out.println("Level-Order Traversal : ");
+			
+			TreeNode root=this;
+			Queue<TreeNode>q=new LinkedList<>();
+			q.add(this);
+	        while(!q.isEmpty()){
+	            int qsize=q.size();
+	            for(int i=0;i<qsize;i++){
+	                TreeNode temp=q.poll();
+	                out.print(temp.data+" ");
+	                if(temp.left!=null)
+	                    q.add(temp.left);
+	                if(temp.right!=null)
+	                    q.add(temp.right);
+	            }out.println();
+	        }
+	        return ;
+		}
+
+		static<T> TreeNode CREATE_ITERATIVE(Scanner in,PrintWriter out,java.util.function.Function<String,T> parser){
+			TreeNode root=null;
+			T rootdata;
+			out.println("Enter data for the root : ");
+			rootdata=parser.apply(in.next());
+        	root=new TreeNode(rootdata);
+
+        	Queue<TreeNode>q=new LinkedList<>();
+        	q.add(root);
+        	while(!q.isEmpty()){
+        		int qsize=q.size();
+        		for(int i=0;i<qsize;i++){
+        			TreeNode temp=q.poll();
+        			T leftrootdata,rightrootdata;
+        			out.print("Enter left and right data for the "+temp.data+" : \n");
+        			leftrootdata=parser.apply(in.next());
+        			rightrootdata=parser.apply(in.next());
+
+        			if(!leftrootdata.equals(0)){
+	                    temp.left=new TreeNode(leftrootdata);
+	                    q.add(temp.left);
+	                }
+	                if(!rightrootdata.equals(0)){
+	                    temp.right=new TreeNode(rightrootdata);
+	                    q.add(temp.right);
+	                }
+        		}
+        	}
+        	return root;
+		}
+
+		static<T> TreeNode recursion(TreeNode root,Scanner in,PrintWriter out,java.util.function.Function<String,T> parser){	
+			if(root==null){
+                out.print("Enter data for root : \n");
+                T rootdata=parser.apply(in.next());
+                if(rootdata.equals(0)){
+                    return root;
+                }
+                root=new TreeNode(rootdata);
             }
-            System.out.println();
-        }
-    }
-    static Node nonRecursiveTreeCreation(){
-        Node root=null;
-        Scanner sc=new Scanner(System.in);
-        Queue<Node>q=new LinkedList<>();
-        System.out.print("Enter Data for Root : ");
-        int data=sc.nextInt();
-        root = new Node(data);
-        q.add(root);
-        while(!q.isEmpty()){
-            Node temp=q.poll();
-            System.out.print("Enter the data for the left children of "+temp.data+" : ");
-            data=sc.nextInt();
-            if(data != 0){
-                temp.left=new Node(data);
-                q.add(temp.left);
-            }
-            System.out.print("Enter the data for the right children of "+temp.data+" : ");
-            data=sc.nextInt();
-            if(data != 0){
-                temp.right=new Node(data);
-                q.add(temp.right);
-            }
-        }
-        return root;
-    }
-    static Node RecursiveTreeCreation(Node root){
-        if(root==null){
-            Scanner sc=new Scanner(System.in);
-            int data=sc.nextInt();
-            if(data==0)return null;
-            root=new Node(data);
-        }
-        System.out.print("Enter the data for the left children of "+root.data+" ");
-        root.left=RecursiveTreeCreation(root.left);
-        System.out.print("Enter the data for the right children of "+root.data+" ");
-        root.right=RecursiveTreeCreation(root.right);
-        return root;
-    }
-    static void preorder(Node root,Vector<Integer>v){
-        if(root==null)return;
-        v.add(root.data);
-        preorder(root.left,v);
-        preorder(root.right,v);
-    }
-    static void inorder(Node root,Vector<Integer>v){
-        if(root==null)return;
-        inorder(root.left,v);
-        v.add(root.data);
-        inorder(root.right,v);
-    }
-    static void postorder(Node root,Vector<Integer>v){
-        if(root==null)return;
-        postorder(root.left,v);
-        postorder(root.right,v);
-        v.add(root.data);
-    }
-    static void iterativePreorder(Node root) {
-        if (root == null) return;
+            out.print("Enter data for the left of the "+root.data+" : \n");
+            root.left=recursion(root.left,in,out,parser);
+            out.print("Enter data for the right of the "+root.data+" : \n");
+            root.right=recursion(root.right,in,out,parser);
+            return root;
+		}
 
-        Stack<Node> s = new Stack<>();
-        s.push(root);
+		static<T> TreeNode CREATE_RECURSION(Scanner in,PrintWriter out,java.util.function.Function<String,T> parser){
+			TreeNode root=null;
+			return TreeNode.recursion(root,in,out,parser);	
+		}
+	}
 
-        while (!s.isEmpty()) {
-            Node temp = s.pop();
-            System.out.print(temp.data + " ");
+	static void iterative_preorder(TreeNode root,PrintWriter out){
+		out.print("Iterative Preorder Traversal : ");
+		Stack<TreeNode>st=new Stack<>();
+		st.push(root);
+		while(!st.isEmpty()){
+			TreeNode temp=st.pop();
+			out.print(temp.data+" ");
+			if(temp.right!=null)
+				st.push(temp.right);
+			if(temp.left!=null)
+				st.push(temp.left);
+		}
+		return ;
+	}
 
-            if (temp.right != null) s.push(temp.right);
-            if (temp.left != null) s.push(temp.left);
-        }
-        System.out.println();
-    }
-    static void iterativeInorder(Node root) {
-        Stack<Node> s = new Stack<>();
-        Node curr = root;
-        while (!s.isEmpty() || curr != null) {
-            if (curr != null) {
-                s.push(curr);
-                curr = curr.left;
-            } else {
-                curr = s.pop();
-                System.out.print(curr.data + " ");
-                curr = curr.right;
-            }
-        }
-        System.out.println();
-    }
-    static void iterativePostorder(Node root) {
-        Stack<Node> s = new Stack<>();
-        Stack<Integer> out = new Stack<>();
-        s.push(root);
-        while (!s.isEmpty()) {
-            Node temp = s.pop();
-            out.push(temp.data);
+	public static void main(String args[]) throws FileNotFoundException{
+		try(
+			Scanner in = new Scanner(new File("input.txt"));
+			PrintWriter out = new PrintWriter("output.txt")
+		){
+			TreeNode<Integer>root=TreeNode.CREATE_ITERATIVE(in,out,Integer::parseInt);
+			// TreeNode<Integer>root=TreeNode.CREATE_RECURSION(in,out,Integer::parseInt);
+			root.LEVEL_ORDER(out);
+			iterative_preorder(root,out);
 
-            if (temp.left != null) s.push(temp.left);
-            if (temp.right != null) s.push(temp.right);
-        }
-        while (!out.isEmpty()) {
-            System.out.print(out.pop() + " ");
-        }
-        System.out.println();
-    }
-    public static void main(String args[]){
-        // Node root=nonRecursiveTreeCreation();
-        // levelOrder(root);
-
-        System.out.println("Enter Data for the Root : ");
-
-        Node root=null;
-        root=RecursiveTreeCreation(root);
-        levelOrder(root);
-
-        Vector<Integer>v1=new Vector<>();
-        Vector<Integer>v2=new Vector<>();
-        Vector<Integer>v3=new Vector<>();
-
-        preorder(root,v1);
-        System.out.println(v1);
-        inorder(root,v2);
-        System.out.println(v2);
-        postorder(root,v3);
-        System.out.println(v3);
-
-        iterativePreorder(root);
-        iterativeInorder(root);
-        iterativePostorder(root);
-    }
-}
+		}
+	}
+} 
+// Input for iterative creation 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0 
+// Input for recursive creation 1 2 4 0 0 5 0 0 3 6 0 0 7 0 0

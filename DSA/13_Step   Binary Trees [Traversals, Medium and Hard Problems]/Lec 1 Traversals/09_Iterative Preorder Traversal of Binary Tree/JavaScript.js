@@ -1,146 +1,122 @@
-const cin=require("prompt-sync")();
-class Node{
-    constructor(data){
+const fs = require("fs");
+
+let rawInput = "";
+const useFileIO = fs.existsSync("input.txt");
+
+if (useFileIO)
+	rawInput = fs.readFileSync("input.txt", "utf8");
+else
+    rawInput = fs.readFileSync(0, "utf8"); // stdin
+
+const input = rawInput.trim().split(/\s+/).map(Number);
+let idx = 0;
+
+class TreeNode{
+	data;
+	left;
+	right;
+
+    constructor(data,left=null,right=null){
         this.data=data;
-        this.left=null;
-        this.right=null;
-    }
-}
-function levelOrder(root){
-    const q=[];
-    q.push(root);
-    while(q.length){
-        let n=q.length;
-        for(let i=0;i<n;i++){
-            const temp=q.shift();
-            process.stdout.write(temp.data+" ");
-            if(temp.left)q.push(temp.left);
-            if(temp.right)q.push(temp.right);
+        this.left=left;
+        this.right=right;
+    } 
+
+    LEVEL_ORDER(out){
+        out.push("Level-Order Traversal :\n");
+
+        let root=this;
+        let q=[];
+        q.push(root);
+        while(q.length>0){
+            let qsize=q.length;
+            for(let i=0;i<qsize;i++){
+            	let temp=q.shift();
+            	out.push(temp.data+" ");
+            	if(temp.left)
+            		q.push(temp.left);
+            	if(temp.right)
+            		q.push(temp.right);
+            }out.push("\n");
         }
-        console.log();
+        return ;
     }
-}
-function nonRecursiveTreeCreation(){
-    console.log("Enter Data for Root : ");
-    let data=parseInt(cin());
-    let root=new Node(data);
-    const q = [];
-    q.push(root);
-    while (q.length) {
-        const temp = q.shift();
-        process.stdout.write(`Enter the data for the left child of ${temp.data}  `);
-        data=parseInt(cin());
-        if(data){
-            temp.left=new Node(data);
-            q.push(temp.left);
+
+    static CREATE_ITERATIVE(out){
+    	let root=null;
+        let rootdata=input[idx++];
+        out.push("Enter data for the root : \n");
+        root=new TreeNode(rootdata);
+
+        let q=[];
+        q.push(root);
+        while(q.length>0){
+        	let qsize=q.length;
+        	for(let i=0;i<qsize;i++){
+        		let temp=q.shift();
+        		let leftrootdata,rightrootdata;
+        		out.push("Enter left and right data for the "+temp.data+" : \n");
+        		leftrootdata=input[idx++];
+        		rightrootdata=input[idx++];
+        		if(leftrootdata!==0){
+        			temp.left=new TreeNode(leftrootdata);
+        			q.push(temp.left);
+        		}
+        		if(rightrootdata!==0){
+        			temp.right=new TreeNode(rightrootdata);
+        			q.push(temp.right);
+        		}
+        	}
         }
-        process.stdout.write(`Enter the data for the right child of ${temp.data}  `);
-        data=parseInt(cin());
-        if(data){
-            temp.right=new Node(data);
-            q.push(temp.right);
-        }
-    }
-    return root;
-}
-function RecursiveTreeCreation(root){
-    if(!root){
-        let data=parseInt(cin());
-        if(!data)return null;
-        root=new Node(data);
-    }
-    process.stdout.write("Enter the data for the left children of "+root.data+" ");
-    root.left=RecursiveTreeCreation(root.left);
-    process.stdout.write("Enter the data for the right children of "+root.data+" ");
-    root.right=RecursiveTreeCreation(root.right);
-    return root;
-}
-function preorder(root,v){
-    if(root==null)return;
-    v.push(root.data);
-    preorder(root.left,v);
-    preorder(root.right,v);
-}
-function inorder(root,v){
-    if(root==null)return;
-    inorder(root.left,v);
-    v.push(root.data);
-    inorder(root.right,v);
-}
-function postorder(root,v){
-    if(root==null)return;
-    postorder(root.left,v);
-    postorder(root.right,v);
-    v.push(root.data);
-}
-function iterativePreorder(root) {
-    if (!root) return;
-
-    const stack = [];
-    stack.push(root);
-
-    while (stack.length > 0) {
-        const node = stack.pop();
-        process.stdout.write(node.data + " ");
-
-        if (node.right) stack.push(node.right);
-        if (node.left) stack.push(node.left);
-    }
-    console.log();
-}
-function iterativeInorder(root) {
-    const stack = [];
-    let curr = root;
-    while (stack.length > 0 || curr) {
-        if (curr) {
-            stack.push(curr);
-            curr = curr.left;
-        } else {
-            curr = stack.pop();
-            process.stdout.write(curr.data + " ");
-            curr = curr.right;
-        }
-    }
-    console.log();
-}
-
-function iterativePostorder(root) {
-    if (!root) return;
-    const stack1 = [];
-    const stack2 = [];
-    stack1.push(root);
-
-    while (stack1.length > 0) {
-        const node = stack1.pop();
-        stack2.push(node.data);
-
-        if (node.left) stack1.push(node.left);
-        if (node.right) stack1.push(node.right);
+        return root;
     }
 
-    while (stack2.length > 0) {
-        process.stdout.write(stack2.pop() + " ");
+    static CREATE_RECURSION(out){
+        const recursion=(root)=>{
+        	if(!root){
+            	out.push("Enter data for root : \n");
+            	let rootdata;rootdata=input[idx++];
+                	if(rootdata===0)
+                    	return root;
+                root=new TreeNode(rootdata);
+        	}
+            out.push("Enter data for the left of the "+root.data+" : \n");
+            root.left=recursion(root.left);
+            out.push("Enter data for the right of the "+root.data+" : \n");
+            root.right=recursion(root.right);
+            return root;
+        };
+        let root=null;
+        return recursion(root);
     }
-    console.log();
 }
 
-let root=nonRecursiveTreeCreation();
-levelOrder(root);
+function iterative_preorder(root,out){
+    out.push("Iterative Preorder Traversal : ");
+    let st=[];
+    st.push(root);
+    while(st.length>0){
+        let temp=st.pop();
+        out.push(temp.data+" ");
+        if(temp.right)
+            st.push(temp.right);
+        if(temp.left)
+            st.push(temp.left);
+    }
+    return ;
+}
 
-// console.log("Enter Data for the Root : ");
-// let root=null;
-// root=RecursiveTreeCreation(root);
-// levelOrder(root);
+let output=[];
 
-let v1=[];
-let v2=[];
-let v3=[];
-preorder(root,v1);
-console.log(v1);
-inorder(root,v2);
-console.log(v2);
-postorder(root,v3);
-console.log(v3);
-iterativePreorder(root);
-iterativeInorder(root);
-iterativePostorder(root);
+// let root=TreeNode.CREATE_RECURSION(output);
+let root=TreeNode.CREATE_ITERATIVE(output);
+root.LEVEL_ORDER(output);
+iterative_preorder(root,output);
+
+if(useFileIO)
+    fs.writeFileSync("output.txt", output.join(""));
+else
+    console.log(output.join("\n"));
+
+// Input for iterative creation 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0 
+// Input for recursive creation 1 2 4 0 0 5 0 0 3 6 0 0 7 0 0
