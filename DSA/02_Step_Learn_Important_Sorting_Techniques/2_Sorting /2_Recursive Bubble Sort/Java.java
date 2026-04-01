@@ -4,7 +4,7 @@ public class Java{
         if(i<0)return;
         for(int j=0;j<i;j++){
             if(arr.get(j)>arr.get(j+1)){
-                int temp=arr.get(j+1);
+                int temp=arr.get(j+1); 
                 arr.set(j+1,arr.get(j));
                 arr.set(j,temp);
             }
