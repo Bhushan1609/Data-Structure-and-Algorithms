@@ -44,6 +44,5 @@ function main(){
     output.push(oneline);
     fs.writeFileSync('output.txt',output.join('\n'));
 }
-
 main();
 //Problem Link : https://www.geeksforgeeks.org/problems/selection-sort/1
