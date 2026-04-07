@@ -4,10 +4,10 @@ using namespace std;
 void insertionSort(vector<int>&arr){
     int n=arr.size();
     for(int i=0;i<n;i++){
-        int j(i);
+        int j=i;
         while(j>0 && arr[j]<arr[j-1]){
             swap(arr[j],arr[j-1]);
-            --j;
+            j--;
         }
     }
     return;
@@ -18,16 +18,16 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-
+    
     vector<int>arr={13,46,24,52,20,9};
-    cout<<"Before Sorting : "<<endl;
+    cout<<"Before Sorting : ";
     for(auto &i:arr)
         cout<<i<<" ";
     cout<<endl;
 
     insertionSort(arr);
 
-    cout<<"After Sorting : "<<endl;
+    cout<<"After Sorting  : ";
     for(auto &i:arr)
         cout<<i<<" ";
     cout<<endl;
