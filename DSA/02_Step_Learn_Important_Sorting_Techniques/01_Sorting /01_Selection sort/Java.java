@@ -2,13 +2,6 @@ import java.io.*;
 import java.util.*;
 
 class Java{
-
-	static void swap(List<Integer>arr,int i,int j){
-		int temp=arr.get(i);
-		arr.set(i,arr.get(j));
-		arr.set(j,temp);
-	}
-
 	static void selectionSort(List<Integer>arr){
 		int n=arr.size();
 		for(int i=0;i<n;i++){

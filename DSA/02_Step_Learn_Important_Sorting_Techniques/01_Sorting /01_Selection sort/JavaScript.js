@@ -7,13 +7,6 @@ function readline() {
     return inputString[currentLine++] ;
 }
 
-function swap(i,j,arr){
-    let temp=arr[i];
-    arr[i]=arr[j];
-    arr[j]=temp;
-    return ;
-}
-
 function selectionSort(arr){
     let n=arr.length;
     for(let i=0;i<n;i++){
@@ -23,7 +16,9 @@ function selectionSort(arr){
                 minIndex=j;
             }
         }
-        swap(i,minIndex,arr);
+        let temp=arr[i];
+        arr[i]=arr[minIndex];
+        arr[minIndex]=temp;
     }
 }
 
