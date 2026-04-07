@@ -7,12 +7,12 @@ void bubbleSort(vector<int>&arr){
         bool swapHappens=false;
         for(int j=0;j<i;j++){
             if(arr[j]>arr[j+1])
-                swapHappens |= true , swap(arr[j],arr[j+1]);
+                swapHappens|=true,swap(arr[j],arr[j+1]);
         }
         if(!swapHappens)
-            break;//Array is already Sorted
+            break;
     }
-    return ;
+    return;
 }
 
 int main(){
@@ -22,14 +22,14 @@ int main(){
     #endif
     
     vector<int>arr={13,46,24,52,20,9};
-    cout<<"Before Sorting : "<<endl;
+    cout<<"Before Sorting : ";
     for(auto &i:arr)
         cout<<i<<" ";
     cout<<endl;
 
     bubbleSort(arr);
 
-    cout<<"After Sorting : "<<endl;
+    cout<<"After Sorting  : ";
     for(auto &i:arr)
         cout<<i<<" ";
     cout<<endl;
