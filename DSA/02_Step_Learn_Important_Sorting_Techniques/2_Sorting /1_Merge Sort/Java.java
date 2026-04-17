@@ -1,43 +1,64 @@
+import java.io.*;
 import java.util.*;
-public class Java{
-    static void merge(Vector<Integer>arr,int low,int mid,int high){
-        int left=low,right=mid+1,index=0;
-        Vector<Integer>temp=new Vector<>();
-        while(left<=mid && right<=high){
-            if(arr.get(left)<arr.get(right)){
-                temp.add(arr.get(left));
-                left+=1;
-            }else{
-                temp.add(arr.get(right));
-                right+=1;
-            }
-        }
-        while(left<=mid) {temp.add(arr.get(left));left+=1;}
-        while(right<=high) {temp.add(arr.get(right));right+=1;}
-        for(int i=low;i<=high;i++){
-            arr.set(i,temp.get(index));
-            index+=1;
-        }
-        return ;
-    }
-    static void mergeSort(Vector<Integer>arr,int low,int high){
-        if(low>=high) return;
-        int mid=(low+high)>>1;
-        mergeSort(arr,low,mid);
-        mergeSort(arr,mid+1,high);
-        merge(arr,low,mid,high);
-    }
-    public static void main(String[] args){
-        Vector<Integer>arr=new Vector<>();
-        arr.add(13);
-        arr.add(46);
-        arr.add(24);
-        arr.add(52);
-        arr.add(20);
-        arr.add(9);
-        int n=arr.size();
-        mergeSort(arr,0,n-1);
-        System.out.println(arr);
-    }
-}
 
+class Java{
+	static void merge(int start,int mid,int end,List<Integer>arr){
+	    int i=start,j=mid+1;
+	    List<Integer>temp=new ArrayList<>();
+	    while(i<=mid && j<=end){
+	        if(arr.get(i)<=arr.get(j)){
+	            temp.add(arr.get(i));
+	            i++;
+	        }else{
+	            temp.add(arr.get(j));
+	            j++;
+	        }
+	    }
+	    while(i<=mid)
+	        temp.add(arr.get(i++));
+	    while(j<=end)
+	        temp.add(arr.get(j++));
+
+	    for(i=start;i<=end;i++)
+	        arr.set(i,temp.get(i-start));
+	    
+	    return ;
+	}
+
+	static void divide(int start,int end,List<Integer>arr){
+	    if(start>=end)
+	        return;
+	    int mid=(start+end)>>1;
+	    divide(start,mid,arr);
+	    divide(mid+1,end,arr);
+	    merge(start,mid,end,arr);
+	}
+
+	static void mergeSort(List<Integer>arr){
+		int n=arr.size();
+    	divide(0,n-1,arr);
+	}
+
+	public static void main(String args[]) throws FileNotFoundException{
+		{
+			try(
+				Scanner in=new Scanner(new File("input.txt"));
+				PrintWriter out=new PrintWriter("output.txt")
+			){
+				List<Integer>arr=new ArrayList<>(Arrays.asList(13,46,24,52,20,9));
+				out.print("Before Sorting : ");
+				for(int i:arr)
+					out.print(i+" ");
+				out.println(); 
+
+				mergeSort(arr);  
+
+				out.print("After Sorting  : ");
+				for(int i:arr)
+					out.print(i+" ");
+				out.println();         
+			}
+		}
+	}
+}
+//Problem Link : https://www.geeksforgeeks.org/problems/merge-sort/1

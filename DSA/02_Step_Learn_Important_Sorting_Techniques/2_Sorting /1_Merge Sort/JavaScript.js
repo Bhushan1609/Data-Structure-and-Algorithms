@@ -1,28 +1,66 @@
-let arr=[13,46,24,52,20,9];
-mergeSort(arr,0,arr.length-1);
-console.log(arr);
+const fs=require('fs');
+let inputString=fs.readFileSync('input.txt','utf-8').split('\n').filter(line=>line.trim()!=='');
+let currentLine=0;
+let output=[];
 
-function merge(arr,low,mid,high){
+function readline() {
+    return inputString[currentLine++] ;
+}
+
+function merge(start,mid,end,arr){
+    let i=start,j=mid+1;
     let temp=[];
-    let left=low,right=mid+1,index=0;
-    while(left<=mid && right<=high){
-        if(arr[left]<arr[right]){
-            temp.push(arr[left++]);
+    while(i<=mid && j<=end){
+        if(arr[i]<=arr[j]){
+            temp.push(arr[i]);
+            i++;
         }else{
-            temp.push(arr[right++]);
+            temp.push(arr[j]);
+            j++;
         }
     }
-    while(left<=mid) temp.push(arr[left++]);
-    while(right<=high) temp.push(arr[right++]);
-    for(let i=low;i<=high;i++){
-        arr[i]=temp[index++];
-    }
+    while(i<=mid)
+        temp.push(arr[i++]);
+    while(j<=end)
+        temp.push(arr[j++]);
+
+    for(let i=start;i<=end;i++)
+        arr[i]=temp[i-start];
+    
     return ;
 }
-function mergeSort(arr,low,high){
-    if(low>=high)return;
-    let mid=(low+high)>>1;
-    mergeSort(arr,0,mid);
-    mergeSort(arr,mid+1,high);
-    merge(arr,low,mid,high);
+
+function divide(start,end,arr){
+    if(start>=end)
+        return;
+    let mid=Math.floor((start+end)/2);
+    divide(start,mid,arr);
+    divide(mid+1,end,arr);
+    merge(start,mid,end,arr);
 }
+
+function mergeSort(arr){
+        let n=arr.length;
+        divide(0,n-1,arr);
+    }
+
+function main(){
+    let arr=[13,46,24,52,20,9];
+    output.push("Before Sorting : ");
+    let oneline="";
+    for(let i in arr)
+        oneline+=arr[i]+" ";
+    output.push(oneline);
+
+    mergeSort(arr);
+
+    output.push("After Sorting : ");
+    oneline="";
+    for(let i in arr)
+        oneline+=arr[i]+" ";
+    output.push(oneline);
+    fs.writeFileSync('output.txt',output.join('\n'));
+}
+
+main();
+//Problem Link : https://www.geeksforgeeks.org/problems/merge-sort/1
