@@ -3,7 +3,7 @@
 using namespace std;
 using ll = long long;
 using u32 = unsigned int;
-using u64 = unsigned long long;
+using u64 = unsigned long long; 
 using pi = pair<ll, ll>;
 using vi = vector<ll>;
 template <class T>
