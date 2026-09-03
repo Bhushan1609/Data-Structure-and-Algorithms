@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-class Java{
+class Java{  
 	static void selectionSort(List<Integer>arr){
 		int n=arr.size();
 		for(int i=0;i<n;i++){
