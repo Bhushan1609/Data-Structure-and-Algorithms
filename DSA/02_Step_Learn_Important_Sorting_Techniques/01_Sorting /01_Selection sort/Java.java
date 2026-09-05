@@ -3,7 +3,7 @@ import java.util.*;
 
 class Java{  
 	static void selectionSort(List<Integer>arr){
-		int n=arr.size();
+		int n=arr.size();      
 		for(int i=0;i<n;i++){
 			int minIndex=i;
 			for(int j=i+1;j<n;j++){
