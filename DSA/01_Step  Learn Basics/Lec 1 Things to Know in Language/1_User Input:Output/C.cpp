@@ -6,7 +6,7 @@ using u32 = unsigned int;
 using u64 = unsigned long long; 
 using pi = pair<ll, ll>; 
 using vi = vector<ll>; 
-template <class T>
+template <class T>    
 using vd = vector<T>;
 template <class T>
 using vdd = vector<vd<T>>;
