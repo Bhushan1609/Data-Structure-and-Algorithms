@@ -1,3 +1,5 @@
+//Problem Link : https://www.geeksforgeeks.org/problems/selection-sort/1
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -11,7 +13,7 @@ void selection_sort(vector<int>&vec){
         }
         swap(vec[i],vec[minIndex]);
     }
-    return;
+    return ;
 }
 
 int main(){
@@ -19,21 +21,20 @@ int main(){
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
     #endif
-
+    
     vector<int>vec={13,46,24,52,20,9};
 
     cout<<"Before Sorting : ";
-    for(auto &ele:vec)
-        cout<<ele<<" ";
+    for(auto &i:vec)
+        cout<<i<<" ";
     cout<<endl;
 
     selection_sort(vec);
 
     cout<<"After Sorting : ";
-    for(auto &ele:vec)
-        cout<<ele<<" ";
+    for(auto &i:vec)
+        cout<<i<<" ";
     cout<<endl;
+
     return 0;
 }
-
-//Problem Link : https://www.geeksforgeeks.org/problems/selection-sort/1
