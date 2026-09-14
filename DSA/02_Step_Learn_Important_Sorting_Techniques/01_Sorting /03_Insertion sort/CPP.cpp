@@ -1,16 +1,18 @@
+//Problem Link : https://www.geeksforgeeks.org/problems/insertion-sort/1
+
 #include<bits/stdc++.h>
 using namespace std;
 
-void insertionSort(vector<int>&arr){
-    int n=arr.size();
+void insertion_sort(vector<int>&vec){
+    int n=vec.size();
     for(int i=0;i<n;i++){
         int j=i;
-        while(j>0 && arr[j]<arr[j-1]){
-            swap(arr[j],arr[j-1]);
+        while(j>0 && vec[j]<vec[j-1]){
+            swap(vec[j],vec[j-1]);
             j--;
         }
     }
-    return;
+    return ;
 }
 
 int main(){
@@ -19,18 +21,19 @@ int main(){
         freopen("output.txt","w",stdout);
     #endif
     
-    vector<int>arr={13,46,24,52,20,9};
+    vector<int>vec={13,46,24,52,20,9};
+
     cout<<"Before Sorting : ";
-    for(auto &i:arr)
+    for(auto &i:vec)
         cout<<i<<" ";
     cout<<endl;
 
-    insertionSort(arr);
+    insertion_sort(vec);
 
-    cout<<"After Sorting  : ";
-    for(auto &i:arr)
+    cout<<"After Sorting : ";
+    for(auto &i:vec)
         cout<<i<<" ";
     cout<<endl;
+
     return 0;
 }
-//Problem Link : https://www.geeksforgeeks.org/problems/insertion-sort/1
