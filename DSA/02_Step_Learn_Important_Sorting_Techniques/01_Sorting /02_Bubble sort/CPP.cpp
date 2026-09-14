@@ -1,18 +1,20 @@
+//Problem Link : http://geeksforgeeks.org/problems/bubble-sort/1
+
 #include<bits/stdc++.h>
 using namespace std;
 
-void bubbleSort(vector<int>&arr){
-    int n=arr.size();
+void bubble_sort(vector<int>&vec){
+    int n=vec.size();
     for(int i=n-1;i>0;i--){
         bool swapHappens=false;
         for(int j=0;j<i;j++){
-            if(arr[j]>arr[j+1])
-                swapHappens|=true,swap(arr[j],arr[j+1]);
+            if(vec[j]>vec[j+1])
+                swapHappens|=true,swap(vec[j],vec[j+1]);
         }
         if(!swapHappens)
-            break;
+            break;     //allready sorted
     }
-    return;
+    return ;
 }
 
 int main(){
@@ -21,18 +23,19 @@ int main(){
         freopen("output.txt","w",stdout);
     #endif
     
-    vector<int>arr={13,46,24,52,20,9};
+    vector<int>vec={13,46,24,52,20,9};
+
     cout<<"Before Sorting : ";
-    for(auto &i:arr)
+    for(auto &i:vec)
         cout<<i<<" ";
     cout<<endl;
 
-    bubbleSort(arr);
+    bubble_sort(vec);
 
-    cout<<"After Sorting  : ";
-    for(auto &i:arr)
+    cout<<"After Sorting : ";
+    for(auto &i:vec)
         cout<<i<<" ";
     cout<<endl;
+
     return 0;
 }
-//Problem Link : http://geeksforgeeks.org/problems/bubble-sort/1
