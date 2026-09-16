@@ -7,7 +7,7 @@ void bubble_sort(vector<int>&vec){
     int n=vec.size();
     for(int i=n-1;i>0;i--){
         bool swapHappens=false;
-        for(int j=0;j<i;j++){
+        for(int j=0;j<i;j++){  
             if(vec[j]>vec[j+1])
                 swapHappens|=true,swap(vec[j],vec[j+1]);
         }
