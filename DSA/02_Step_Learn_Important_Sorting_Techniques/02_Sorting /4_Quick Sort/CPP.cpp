@@ -1,33 +1,33 @@
+//Problem Link : https://www.geeksforgeeks.org/problems/quick-sort/1
+
 #include<bits/stdc++.h>
 using namespace std;
 
-int f(int low,int high,vector<int>&arr){
-    int pivot=arr[low];
-    int i=low;
-    int j=high;
-
+int pivotPlaceFunction(int low,int high,vector<int>&vec){
+    int pivot=vec[low];
+    int i=low,j=high;
     while(i<j){
-        while(i<high && arr[i]<=pivot)
-            i++;
-
-        while(j>low && arr[j]>pivot)
-            j--;
+        while(vec[i]<=pivot && i<=high) i++;
+        while(vec[j]>pivot && j>=low) j--;
 
         if(i<j)
-            swap(arr[i],arr[j]);
+            swap(vec[i],vec[j]);
     }
-    swap(arr[low],arr[j]);
+    swap(vec[low],vec[j]);
     return j;
 }
 
+void qs(int low,int high,vector<int>&vec){
+    if(low>=high)
+        return;
+    int partitionIndex=pivotPlaceFunction(low,high,vec);
+    qs(low,partitionIndex-1,vec);
+    qs(partitionIndex+1,high,vec);
 
-void quickSort(int low,int high,vector<int>&arr){
-    if(low<high){
-        int partitionIndex=f(low,high,arr);
-        quickSort(low,partitionIndex-1,arr);
-        quickSort(partitionIndex+1,high,arr);
-    }
-    return ;
+}
+
+void quick_sort(vector<int>&vec){
+    qs(0,vec.size()-1,vec);
 }
 
 int main(){
@@ -36,18 +36,19 @@ int main(){
         freopen("output.txt","w",stdout);
     #endif
     
-    vector<int>arr={13,46,24,52,20,9};
+    vector<int>vec={13,46,24,52,20,9};
+
     cout<<"Before Sorting : ";
-    for(auto &i:arr)
+    for(auto &i:vec)
         cout<<i<<" ";
     cout<<endl;
 
-    quickSort(0,arr.size()-1,arr);
+    quick_sort(vec);
 
-    cout<<"After Sorting  : ";
-    for(auto &i:arr)
+    cout<<"After Sorting : ";
+    for(auto &i:vec)
         cout<<i<<" ";
     cout<<endl;
+
     return 0;
 }
-//Problem Link : https://www.geeksforgeeks.org/problems/quick-sort/1
