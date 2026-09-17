@@ -3,17 +3,19 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void bubble_sort(vector<int>&vec){
-    int n=vec.size();
-    for(int i=n-1;i>0;i--){
-        bool swapHappens=false;
-        for(int j=0;j<i;j++){  
-            if(vec[j]>vec[j+1])
-                swapHappens|=true,swap(vec[j],vec[j+1]);
-        }
-        if(!swapHappens)
-            break;     //allready sorted
+void recursive_bubble_sort(vector<int>&vec,int i){
+    if(i<=0)
+        return ;
+
+    bool swapHappens=false;
+    for(int j=0;j<i;j++){
+        if(vec[j]>vec[j+1])
+            swapHappens|=true,swap(vec[j],vec[j+1]);
     }
+    if(!swapHappens)
+        return ;     //allready sorted
+
+    recursive_bubble_sort(vec,i-1);
     return ;
 }
 
@@ -30,7 +32,7 @@ int main(){
         cout<<i<<" ";
     cout<<endl;
 
-    bubble_sort(vec);
+    recursive_bubble_sort(vec,vec.size()-1);
 
     cout<<"After Sorting : ";
     for(auto &i:vec)
