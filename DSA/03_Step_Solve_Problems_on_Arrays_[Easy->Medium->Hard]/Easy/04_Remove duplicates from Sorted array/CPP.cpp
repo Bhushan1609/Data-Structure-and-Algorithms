@@ -36,6 +36,6 @@ int main(){
     vector<int>vec={1,1,2,2,2,3,3};
 
     cout<<callBrute(vec)<<endl;
-    cout<<callOptimal(vec)<<endl;
+    cout<<callOptimal(vec)<<endl; 
     return 0;
 }
