@@ -9,7 +9,7 @@ int callBrute(vector<int>vec){
     set<int>st;
     for(auto i:vec)
         st.insert(i);
-    int index=0;
+    int index=0; 
     for(auto &i:st)
         vec[index++]=i;
     return index;
