@@ -6,7 +6,7 @@ using namespace std;
 
 int callBrute(vector<int>vec){
     int n=vec.size(); 
-    set<int>st;
+    set<int>st; 
     for(auto i:vec)
         st.insert(i);  
     int index=0; 
